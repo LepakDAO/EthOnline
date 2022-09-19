@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const FormInput = styled.input`
   background-color: #232227;
   width: 259px;
+  contenteditable: true;
   height: 60px;
   border-radius: 15px;
   appearance: none;

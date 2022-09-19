@@ -19,4 +19,5 @@ export const env = {
     137: process.env.NEXT_PUBLIC_RPC_137!, // Polygon Mainnet
     80001: process.env.NEXT_PUBLIC_RPC_80001!, // Mumbai
   },
+  NFTStorageAPIKEY : process.env.NEXT_PUBLIC_IPFS_API_KEY!,
 }

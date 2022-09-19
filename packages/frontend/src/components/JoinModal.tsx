@@ -1,12 +1,31 @@
 import styled from "styled-components";
 import { BigNumber, utils } from "ethers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CustomModal } from "./modal/index";
 import { FormInput } from "./common/FormInput";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { env } from '@shared/environment'
+import { useRouter } from 'next/router'
 import { UploadBox } from "./common/UploadBox";
 import ModalContainer from "./modal/ModalContainer";
 import { Button } from "./common/Button";
+import {NFTStorage} from 'nft.storage'
+import toast from 'react-hot-toast';
+import {message} from "antd";
+
+async function storeDataToIpfs(image : any, inputName : String, inputDescription : String, otherDetails : any) {
+  const ipfs = new NFTStorage({
+    token: env.NFTStorageAPIKEY
+  });
+  const nftMetadata = await ipfs.store({
+    image,
+    name : inputName ? inputName : "No Name",
+    description : inputDescription ? inputDescription : "No Description",
+    ...otherDetails
+  });
+  console.log(`https://ipfs.io/ipfs/${nftMetadata.ipnft}/metadata.json`);
+  return nftMetadata.ipnft;
+}
 export default function JoinModal({
   isOpen,
   onClose,
@@ -24,19 +43,29 @@ export default function JoinModal({
   const [twitter, SetTwitter] = useState<string>("");
   const [telegram, SetTelegram] = useState<string>("");
   const [description, SetDescription] = useState<string>("");
+  const [image, SetImage] = useState<File>();
+  const [goToDashBoard, setGoToDashboard] = useState<Boolean>(false);
+  const router = useRouter();
 
-  const [parsedValue, setParsedValue] = useState<any>();
-  const onChangeValue = (e: any) => {
 
-    console.log(e.target.value.toString());
-    // if (e.target.value.toString() != "")
-    //   setParsedValue(utils.parseEther(e.target.value.toString()));
-  };
-  const onDonateSubmit = async () => {
+  const onJoin = async () => {
+    if(goToDashBoard){
+      router.push(`/dashboard/`);
+    }
     setButtonMsg("Loading...");
-    console.log(email,name,twitter,telegram);
-    setButtonMsg("Join");
+    //TODO : UNCOMMENT
+    // let cid = await storeDataToIpfs(image,name,description,{email,twitter,telegram});
+    toast.success('Metadata stored successfully');
+    setGoToDashboard(true)
+    setButtonMsg("Go to Dashboard");
   };
+  const onFileChanged = async (e : any) => {
+    const {status} = e.file;
+
+    if (status === 'done') {
+      SetImage(e.file.originFileObj || e.file)
+    } 
+  }
 
   return (
     <Wrapper>
@@ -46,12 +75,12 @@ export default function JoinModal({
             style={{ marginRight: "46px" }}
             placeholder="Email"
             value={email}
-            onChange={()=>{SetEmail(value)}}
+            onChange={(e)=>{SetEmail(e.target.value)}}
           />
           <AmountFormInput
             placeholder="Name"
             value={name}
-            onChange={() => {SetName(value)}}
+            onChange={(e) => {SetName(e.target.value)}}
           />
         </FormInputContainer>
         <FormInputContainer>
@@ -59,22 +88,22 @@ export default function JoinModal({
             style={{ marginRight: "46px" }}
             placeholder="Twitter"
             value={twitter}
-            onChange={()=>{SetTwitter(value)}}
+            onChange={(e)=>{SetTwitter(e.target.value)}}
           />
           <AmountFormInput
             placeholder="Telegram"
             value={telegram}
-            onChange={()=>{SetTelegram(value)}}
+            onChange={(e)=>{SetTelegram(e.target.value)}}
           />
         </FormInputContainer>
         <AmountFormInput
           style={{ width: "564px", height: "135px" }}
           placeholder="why do you want to join Lepak DAO"
           value={description}
-          onChange={()=>{SetDescription(value)}}
+          onChange={(e)=>{SetDescription(e.target.value)}}
         />
-        <UploadBox title="Drop profile pic" />
-        <Button onClick={onDonateSubmit}>{buttonMsg}</Button>
+        <UploadBox title="Drop profile pic" onFileChanged={onFileChanged}/>
+        <Button onClick={onJoin}>{buttonMsg}</Button>
       </ModalContainer>
     </Wrapper>
   );
