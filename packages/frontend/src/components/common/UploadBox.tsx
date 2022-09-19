@@ -4,23 +4,37 @@ import React from 'react'
 import styled from 'styled-components'
 import { AiFillPicture } from 'react-icons/ai'
 const { Dragger } = Upload
+
+async function uploadToIpfs(metadata : any) {
+  // const ipfs = new NFTStorage({
+  //   token:
+  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDkxREVEZjVCMmI3REU3NDA1RjM4YjkwMjNhYzAxNTdFMTU3MGE1NjkiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY1MDcyMTAwODQyMiwibmFtZSI6ImFtc3RlcmRhbSJ9.Sn1JCXO3xWD5tLdsCsWVRzbNyJFE1fOSQjTYzaKfEPU",
+  // });
+  // const someData = new Blob([metadata]);
+  // console.log('printing metadata: ',someData);
+  // const cid = await ipfs.storeBlob(someData);
+  // console.log(cid);
+  // return `https://ipfs.io/ipfs/${cid}`;
+}
 const props = {
   name: 'file',
   multiple: true,
   action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
 
-  onChange(info: any) {
+  async onChange(info: any) {
     const { status } = info.file
 
     if (status !== 'uploading') {
-      console.log(info.file, info.fileList)
+      console.log("file data :",info.file, info.fileList);
+      message.success(`Storing in IPFS : ${info.file.name}`);
+      await uploadToIpfs();
+      message.success(`Succesfully stored in IPFS : ${info.file.name}`)
     }
-
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`)
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`)
-    }
+    // if (status === 'done') {
+    //   message.success(`${info.file.name} file uploaded successfully.`)
+    // } else if (status === 'error') {
+    //   message.error(`${info.file.name} file upload failed.`)
+    // }
   },
 
   onDrop(e) {

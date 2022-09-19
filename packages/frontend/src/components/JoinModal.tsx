@@ -27,16 +27,14 @@ export default function JoinModal({
 
   const [parsedValue, setParsedValue] = useState<any>();
   const onChangeValue = (e: any) => {
-    if (e.target.value.toString() != "")
-      setParsedValue(utils.parseEther(e.target.value.toString()));
+
+    console.log(e.target.value.toString());
+    // if (e.target.value.toString() != "")
+    //   setParsedValue(utils.parseEther(e.target.value.toString()));
   };
   const onDonateSubmit = async () => {
     setButtonMsg("Loading...");
-    // const Account = await connector?.account();
-    // const balance =
-    //   await // const finalBalance = uint256ToBN(balance[0]).toString();
-
-    //   // await
+    console.log(email,name,twitter,telegram);
     setButtonMsg("Join");
   };
 
@@ -48,12 +46,12 @@ export default function JoinModal({
             style={{ marginRight: "46px" }}
             placeholder="Email"
             value={email}
-            onChange={onChangeValue}
+            onChange={()=>{SetEmail(value)}}
           />
           <AmountFormInput
             placeholder="Name"
             value={name}
-            onChange={onChangeValue}
+            onChange={() => {SetName(value)}}
           />
         </FormInputContainer>
         <FormInputContainer>
@@ -61,19 +59,19 @@ export default function JoinModal({
             style={{ marginRight: "46px" }}
             placeholder="Twitter"
             value={twitter}
-            onChange={onChangeValue}
+            onChange={()=>{SetTwitter(value)}}
           />
           <AmountFormInput
             placeholder="Telegram"
             value={telegram}
-            onChange={onChangeValue}
+            onChange={()=>{SetTelegram(value)}}
           />
         </FormInputContainer>
         <AmountFormInput
           style={{ width: "564px", height: "135px" }}
           placeholder="why do you want to join Lepak DAO"
           value={description}
-          onChange={onChangeValue}
+          onChange={()=>{SetDescription(value)}}
         />
         <UploadBox title="Drop profile pic" />
         <Button onClick={onDonateSubmit}>{buttonMsg}</Button>
