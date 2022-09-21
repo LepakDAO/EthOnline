@@ -6,8 +6,6 @@ import { FormInput } from './common/FormInput'
 import { useAccount, useConnect, useDisconnect, useFeeData } from 'wagmi'
 import { env } from '@shared/environment'
 import { ethers } from 'ethers'
-import { defaultAbiCoder as abi } from '@ethersproject/abi'
-import { WorldIDComponent } from './WorldIDComponent'
 import { useRouter } from 'next/router'
 import { UploadBox } from './common/UploadBox'
 import ModalContainer from './modal/ModalContainer'
@@ -45,18 +43,6 @@ async function storeDataToIpfs(
   })
   console.log(`https://ipfs.io/ipfs/${nftMetadata.ipnft}/metadata.json`)
   return nftMetadata.ipnft
-}
-
-const encode = (param1: any) => {
-  const rawDigest = (
-    BigInt(solidityKeccak256(['bytes'], [solidityPack(['string'], [param1])])) >> BigInt(8)
-  ).toString(16)
-  console.log(rawDigest)
-  return `0x${rawDigest.padStart(64, '0')}`
-}
-
-const hashBytes = (input: any) => {
-  return abi.encode(['uint256'], [BigInt(keccak256(['bytes'], [input])) >> BigInt(8)])
 }
 
 export default function JoinModal({
