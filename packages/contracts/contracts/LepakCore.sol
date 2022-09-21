@@ -73,7 +73,10 @@ contract LepakCore is Ownable{
         // require(usersPaid[msg.sender],"user hasnt paid yet");
         _verifyPoP(_caller,root,nullifierHash,proof);
         UserInfoURI[msg.sender] = infoURI;
-        membership.provide(msg.sender);
+
+        //uncomment this
+        // membership.provide(msg.sender);
+        
         emit NewMember(msg.sender, membership.currentPriceEth());
     }
 
@@ -124,7 +127,8 @@ contract LepakCore is Ownable{
         uint256[8] calldata proof
     ) internal {
 
-        if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
+        //uncomment this
+        // if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
         worldId.verifyProof(
             root,
             groupId,

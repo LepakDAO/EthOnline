@@ -7,7 +7,7 @@ import { useAccount, useConnect, useDisconnect, useFeeData } from 'wagmi'
 import { env } from '@shared/environment'
 import { ethers } from 'ethers'
 import { defaultAbiCoder as abi } from '@ethersproject/abi'
-// import { WorldIDComponent } from './WorldIDComponent'
+import { WorldIDComponent } from './WorldIDComponent'
 import { useRouter } from 'next/router'
 import { UploadBox } from './common/UploadBox'
 import ModalContainer from './modal/ModalContainer'
@@ -18,16 +18,15 @@ import { useContracts } from '@shared/useContracts'
 import { useSigner } from 'wagmi'
 import { LepakCore as LepakCoreType } from 'src/types/typechain'
 import dynamic from 'next/dynamic'
-// import LepakCore from '@artifacts/contracts/LepakCore.sol/LepakCore.json'
-// import { WidgetProps } from '@worldcoin/id'
+import LepakCore from '@artifacts/contracts/LepakCore.sol/LepakCore.json'
+import { WidgetProps } from '@worldcoin/id'
 import { solidityKeccak256, solidityPack } from 'ethers/lib/utils'
 import { keccak256 } from '@ethersproject/solidity'
-import { useNotification } from '@web3uikit/core'
-import { Notification, sendTargetedNotif } from './EPNS'
-// const WorldIDWidget = dynamic<WidgetProps>(
-//   () => import('@worldcoin/id').then((mod) => mod.WorldIDWidget),
-//   { ssr: false }
-// )
+
+const WorldIDWidget = dynamic<WidgetProps>(
+  () => import('@worldcoin/id').then((mod) => mod.WorldIDWidget),
+  { ssr: false }
+)
 
 async function storeDataToIpfs(
   image: any,
@@ -46,18 +45,6 @@ async function storeDataToIpfs(
   })
   console.log(`https://ipfs.io/ipfs/${nftMetadata.ipnft}/metadata.json`)
   return nftMetadata.ipnft
-}
-
-const encode = (param1: any) => {
-  const rawDigest = (
-    BigInt(solidityKeccak256(['bytes'], [solidityPack(['string'], [param1])])) >> BigInt(8)
-  ).toString(16)
-  console.log(rawDigest)
-  return `0x${rawDigest.padStart(64, '0')}`
-}
-
-const hashBytes = (input: any) => {
-  return abi.encode(['uint256'], [BigInt(keccak256(['bytes'], [input])) >> BigInt(8)])
 }
 
 export default function JoinModal({
@@ -79,7 +66,7 @@ export default function JoinModal({
   const [description, SetDescription] = useState<string>('')
   const [image, SetImage] = useState<File>()
   const [goToDashBoard, setGoToDashboard] = useState<boolean>(false)
-  // const [worldIDProof, setWorldIDProof] = useState<any>(null)
+  const [worldIDProof, setWorldIDProof] = useState<any>(null)
   const router = useRouter()
   const { EPNS_API_PKEY_1, EPNS_CHANNEL_1 } = env
   const { data: signer } = useSigner()
@@ -112,13 +99,13 @@ export default function JoinModal({
     toast.success('Metadata stored successfully')
     setButtonMsg('Performing Trasaction')
     //Contract interaction
-    // console.log('debugging contracts', contracts.LepakCore, LepakCore.abi, signer)
-    // const contract = new ethers.Contract(
-    //   contracts.LepakCore,
-    //   LepakCore.abi,
-    //   signer
-    // ) as LepakCoreType
-    // let receipt
+    console.log('debugging contracts', contracts.LepakCore, LepakCore.abi, signer)
+    const contract = new ethers.Contract(
+      contracts.LepakCore,
+      LepakCore.abi,
+      signer
+    ) as LepakCoreType
+    let receipt
     try {
       /// Muted this section
       // console.log(address, worldIDProof, abi.decode(['uint256[8]'], worldIDProof.proof))
