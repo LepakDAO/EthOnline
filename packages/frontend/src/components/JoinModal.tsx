@@ -7,7 +7,7 @@ import { useAccount, useConnect, useDisconnect, useFeeData } from 'wagmi'
 import { env } from '@shared/environment'
 import { ethers } from 'ethers'
 import { defaultAbiCoder as abi } from '@ethersproject/abi'
-import { WorldIDComponent } from './WorldIDComponent'
+// import { WorldIDComponent } from './WorldIDComponent'
 import { useRouter } from 'next/router'
 import { UploadBox } from './common/UploadBox'
 import ModalContainer from './modal/ModalContainer'
@@ -18,15 +18,16 @@ import { useContracts } from '@shared/useContracts'
 import { useSigner } from 'wagmi'
 import { LepakCore as LepakCoreType } from 'src/types/typechain'
 import dynamic from 'next/dynamic'
-import LepakCore from '@artifacts/contracts/LepakCore.sol/LepakCore.json'
-import { WidgetProps } from '@worldcoin/id'
+// import LepakCore from '@artifacts/contracts/LepakCore.sol/LepakCore.json'
+// import { WidgetProps } from '@worldcoin/id'
 import { solidityKeccak256, solidityPack } from 'ethers/lib/utils'
 import { keccak256 } from '@ethersproject/solidity'
-
-const WorldIDWidget = dynamic<WidgetProps>(
-  () => import('@worldcoin/id').then((mod) => mod.WorldIDWidget),
-  { ssr: false }
-)
+import { useNotification } from '@web3uikit/core'
+import { Notification, sendTargetedNotif } from './EPNS'
+// const WorldIDWidget = dynamic<WidgetProps>(
+//   () => import('@worldcoin/id').then((mod) => mod.WorldIDWidget),
+//   { ssr: false }
+// )
 
 async function storeDataToIpfs(
   image: any,
@@ -78,14 +79,22 @@ export default function JoinModal({
   const [description, SetDescription] = useState<string>('')
   const [image, SetImage] = useState<File>()
   const [goToDashBoard, setGoToDashboard] = useState<boolean>(false)
-  const [worldIDProof, setWorldIDProof] = useState<any>(null)
+  // const [worldIDProof, setWorldIDProof] = useState<any>(null)
   const router = useRouter()
-
+  const { EPNS_API_PKEY_1, EPNS_CHANNEL_1 } = env
   const { data: signer } = useSigner()
   const { contracts } = useContracts()
-
+  const dispatch = useNotification()
   const onJoin = async () => {
-    if (!name || !email || !twitter || !telegram || !description || !image) {
+    // checker to see if values are not empty
+    if (
+      !name ||
+      !email ||
+      !twitter ||
+      !telegram ||
+      !description
+      // || !image
+    ) {
       toast.error('Please enter all values in the form!')
       return
     }
@@ -103,24 +112,60 @@ export default function JoinModal({
     toast.success('Metadata stored successfully')
     setButtonMsg('Performing Trasaction')
     //Contract interaction
-    console.log('debugging contracts', contracts.LepakCore, LepakCore.abi, signer)
-    const contract = new ethers.Contract(
-      contracts.LepakCore,
-      LepakCore.abi,
-      signer
-    ) as LepakCoreType
-    let receipt
+    // console.log('debugging contracts', contracts.LepakCore, LepakCore.abi, signer)
+    // const contract = new ethers.Contract(
+    //   contracts.LepakCore,
+    //   LepakCore.abi,
+    //   signer
+    // ) as LepakCoreType
+    // let receipt
     try {
-      console.log(address, worldIDProof, abi.decode(['uint256[8]'], worldIDProof.proof))
-      const tsx = await contract.joinWithoutEth(
-        'testing',
-        address,
-        worldIDProof.merkle_root,
-        worldIDProof.nullifier_hash,
-        abi.decode(['uint256[8]'], worldIDProof.proof)[0],
-        { gasLimit: 1000000 }
-      )
-      receipt = await tsx.wait()
+      /// Muted this section
+      // console.log(address, worldIDProof, abi.decode(['uint256[8]'], worldIDProof.proof))
+      // const tsx = await contract.joinWithoutEth(
+      //   'testing',
+      //   address,
+      //   worldIDProof.merkle_root,
+      //   worldIDProof.nullifier_hash,
+      //   abi.decode(['uint256[8]'], worldIDProof.proof)[0],
+      //   { gasLimit: 1000000 }
+      // )
+      // receipt = await tsx.wait()
+
+      //// EPNS Section
+      // create EPNS notification
+      const broadcastNotification: Notification = {
+        recipientAddr: address,
+        title: 'New Lepak Member',
+        // body: `${name}[${address}] has applied for LepakDao!`,
+        body: `${name} has applied for LepakDao!`,
+        cta: `https://lepakdao.xyz/u/${address}`,
+        // using LepakDao logo for now
+        imgLink: 'https://avatars.githubusercontent.com/u/113761179?s=200&v=4',
+      }
+
+      // Debug
+      console.log(broadcastNotification)
+      // broadcast notification to LepakDao channel
+      const resp = await sendTargetedNotif(broadcastNotification, 1)
+      console.log(resp.status)
+      // if successful, show a popup
+      if (resp.status === 204) {
+        dispatch({
+          type: 'success',
+          message: 'LepakDao Members will contact you soon!',
+          title: 'EPNS Message Broadcast',
+          position: 'topR',
+        })
+      } else {
+        dispatch({
+          type: 'warning',
+          message: `EPNS message sending failed!`,
+          title: 'EPNS Message Broadcast',
+          position: 'topR',
+        })
+      }
+      console.log(`address:${address}`)
       toast.success('Registered Succefully')
     } catch (e) {
       console.error(e)
@@ -147,7 +192,9 @@ export default function JoinModal({
     signalParams: [address],
     signal: address,
     debug: true, // Recommended **only** for development
-    onSuccess: (result: any) => setWorldIDProof(result),
+    // onSuccess: (result: any) => setWorldIDProof(result),
+    onSuccess: (result: any) => console.log(result),
+
     onError: ({ code, detail }: any) => console.log({ code, detail }),
     onInitSuccess: () => console.log('Init successful'),
     onInitError: (error: any) => console.log('Error while initialization World ID', error),
@@ -200,7 +247,8 @@ export default function JoinModal({
         />
         <UploadBox title="Drop profile pic" onFileChanged={onFileChanged} />
         <Button onClick={onJoin}>{buttonMsg}</Button>
-        {address && <WorldIDWidget {...widgetProps} />}
+        {/* {address && <WorldIDWidget {...widgetProps} />} */}
+        {address}
       </ModalContainer>
     </Wrapper>
   )
