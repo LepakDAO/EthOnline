@@ -7,7 +7,6 @@ import { useAccount, useConnect, useDisconnect, useFeeData } from 'wagmi'
 import { env } from '@shared/environment'
 import { ethers } from 'ethers'
 import { defaultAbiCoder as abi } from '@ethersproject/abi'
-import { WorldIDComponent } from './WorldIDComponent'
 import { useRouter } from 'next/router'
 import { UploadBox } from './common/UploadBox'
 import ModalContainer from './modal/ModalContainer'
@@ -22,6 +21,8 @@ import LepakCore from '@artifacts/contracts/LepakCore.sol/LepakCore.json'
 import { WidgetProps } from '@worldcoin/id'
 import { solidityKeccak256, solidityPack } from 'ethers/lib/utils'
 import { keccak256 } from '@ethersproject/solidity'
+import { useNotification } from '@web3uikit/core'
+import { Notification, sendTargetedNotif } from './EPNS'
 
 const WorldIDWidget = dynamic<WidgetProps>(
   () => import('@worldcoin/id').then((mod) => mod.WorldIDWidget),
@@ -68,7 +69,6 @@ export default function JoinModal({
   const [goToDashBoard, setGoToDashboard] = useState<boolean>(false)
   const [worldIDProof, setWorldIDProof] = useState<any>(null)
   const router = useRouter()
-  const { EPNS_API_PKEY_1, EPNS_CHANNEL_1 } = env
   const { data: signer } = useSigner()
   const { contracts } = useContracts()
   const dispatch = useNotification()
@@ -85,7 +85,7 @@ export default function JoinModal({
       toast.error('Please enter all values in the form!')
       return
     }
-    // if (!worldIDProof) return
+    if (!worldIDProof) return
 
     if (!signer || !contracts) return
 
@@ -108,18 +108,18 @@ export default function JoinModal({
     let receipt
     try {
       /// Muted this section
-      // console.log(address, worldIDProof, abi.decode(['uint256[8]'], worldIDProof.proof))
-      // const tsx = await contract.joinWithoutEth(
-      //   'testing',
-      //   address,
-      //   worldIDProof.merkle_root,
-      //   worldIDProof.nullifier_hash,
-      //   abi.decode(['uint256[8]'], worldIDProof.proof)[0],
-      //   { gasLimit: 1000000 }
-      // )
-      // receipt = await tsx.wait()
+      console.log(address, worldIDProof, abi.decode(['uint256[8]'], worldIDProof.proof))
+      const tsx = await contract.joinWithoutEth(
+        'testing',
+        address,
+        worldIDProof.merkle_root,
+        worldIDProof.nullifier_hash,
+        abi.decode(['uint256[8]'], worldIDProof.proof)[0],
+        { gasLimit: 1000000 }
+      )
+      receipt = await tsx.wait()
 
-      //// EPNS Section
+      //// [EPNS Section]
       // create EPNS notification
       const broadcastNotification: Notification = {
         recipientAddr: address,
@@ -153,7 +153,7 @@ export default function JoinModal({
         })
       }
       console.log(`address:${address}`)
-      toast.success('Registered Succefully')
+      toast.success('Registered Successfully')
     } catch (e) {
       console.error(e)
       setButtonMsg('Join')
@@ -179,9 +179,7 @@ export default function JoinModal({
     signalParams: [address],
     signal: address,
     debug: true, // Recommended **only** for development
-    // onSuccess: (result: any) => setWorldIDProof(result),
-    onSuccess: (result: any) => console.log(result),
-
+    onSuccess: (result: any) => setWorldIDProof(result),
     onError: ({ code, detail }: any) => console.log({ code, detail }),
     onInitSuccess: () => console.log('Init successful'),
     onInitError: (error: any) => console.log('Error while initialization World ID', error),
@@ -234,8 +232,7 @@ export default function JoinModal({
         />
         <UploadBox title="Drop profile pic" onFileChanged={onFileChanged} />
         <Button onClick={onJoin}>{buttonMsg}</Button>
-        {/* {address && <WorldIDWidget {...widgetProps} />} */}
-        {address}
+        {address && <WorldIDWidget {...widgetProps} />}
       </ModalContainer>
     </Wrapper>
   )
