@@ -107,7 +107,6 @@ export default function JoinModal({
     ) as LepakCoreType
     let receipt
     try {
-      /// Muted this section
       console.log(address, worldIDProof, abi.decode(['uint256[8]'], worldIDProof.proof))
       const tsx = await contract.joinWithoutEth(
         'testing',
@@ -118,47 +117,58 @@ export default function JoinModal({
         { gasLimit: 1000000 }
       )
       receipt = await tsx.wait()
-
-      //// [EPNS Section]
-      // create EPNS notification
-      const broadcastNotification: Notification = {
-        recipientAddr: address,
-        title: 'New Lepak Member',
-        // body: `${name}[${address}] has applied for LepakDao!`,
-        body: `${name} has applied for LepakDao!`,
-        cta: `https://lepakdao.xyz/u/${address}`,
-        // using LepakDao logo for now
-        imgLink: 'https://avatars.githubusercontent.com/u/113761179?s=200&v=4',
-      }
-
-      // Debug
-      console.log(broadcastNotification)
-      // broadcast notification to LepakDao channel
-      const resp = await sendTargetedNotif(broadcastNotification, 1)
-      console.log(resp.status)
-      // if successful, show a popup
-      if (resp.status === 204) {
-        dispatch({
-          type: 'success',
-          message: 'LepakDao Members will contact you soon!',
-          title: 'EPNS Message Broadcast',
-          position: 'topR',
-        })
-      } else {
-        dispatch({
-          type: 'warning',
-          message: `EPNS message sending failed!`,
-          title: 'EPNS Message Broadcast',
-          position: 'topR',
-        })
-      }
-      console.log(`address:${address}`)
-      toast.success('Registered Successfully')
+      console.log(receipt)
     } catch (e) {
       console.error(e)
       setButtonMsg('Join')
       return
     }
+
+    try {
+      // check if transaction is sucessful
+      if (receipt.status === 1) {
+        toast.success('Transaction Successful')
+        setButtonMsg('Notifying LepakDao...')
+
+        //// [EPNS Section]
+        // create EPNS notification
+        const broadcastNotification: Notification = {
+          recipientAddr: address,
+          title: 'New Lepak Member',
+          // body: `${name}[${address}] has applied for LepakDao!`,
+          body: `${name} has applied for LepakDao!`,
+          cta: `https://lepakdao.xyz/u/${address}`,
+          // using LepakDao logo for now
+          imgLink: 'https://avatars.githubusercontent.com/u/113761179?s=200&v=4',
+        }
+
+        // Debug
+        console.log(broadcastNotification)
+        // broadcast notification to LepakDao channel
+        const resp = await sendTargetedNotif(broadcastNotification, 1)
+        console.log(resp.status)
+        // if successful, show a popup
+        if (resp.status === 204) {
+          dispatch({
+            type: 'success',
+            message: 'LepakDao Members will contact you soon!',
+            title: 'EPNS Message Broadcast',
+            position: 'topR',
+          })
+        } else {
+          dispatch({
+            type: 'warning',
+            message: `EPNS message sending failed!`,
+            title: 'EPNS Message Broadcast',
+            position: 'topR',
+          })
+        }
+        toast.success('Registered Successfully')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
     setGoToDashboard(true)
     setButtonMsg('Go to Dashboard')
   }
