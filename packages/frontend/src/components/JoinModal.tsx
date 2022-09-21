@@ -85,7 +85,11 @@ export default function JoinModal({
   const { contracts } = useContracts()
 
   const onJoin = async () => {
-    if (!worldIDProof) return
+    if (!name || !email || !twitter || !telegram || !description || !image) {
+      toast.error('Please enter all values in the form!')
+      return
+    }
+    // if (!worldIDProof) return
 
     if (!signer || !contracts) return
 
