@@ -59,7 +59,12 @@ export default function AddLiveStreamModal({
         value={description}
         onChange={onChangeValue}
       />
-      <UploadBox title="Drop thumbnail" />
+      <UploadBox
+        title="Drop thumbnail"
+        onFileChanged={(e: any) => {
+          console.log(e)
+        }}
+      />
       <Button onClick={onDonateSubmit}>{buttonMsg}</Button>
     </CustomModal>
   )

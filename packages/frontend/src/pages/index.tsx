@@ -1,5 +1,5 @@
 import { CenterBody } from '@components/layout/CenterBody'
-import { Lock__factory } from '@lepakdao/contracts/typechain-types'
+// import { Lock__factory } from '@lepakdao/contracts/typechain-types'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useDeployments } from '@shared/useDeployments'
 import type { NextPage } from 'next'
@@ -13,28 +13,28 @@ const HomePage: NextPage = () => {
   const { data: signer } = useSigner()
   const { contracts } = useDeployments()
 
-  const getOwner = async () => {
-    if (!signer || !contracts) return
-    const contract = Lock__factory.connect(contracts.Lock.address, signer)
-    try {
-      const owner = await contract.owner()
-      console.log({ owner })
-    } catch (e) {
-      console.error(e)
-    }
-  }
+  // const getOwner = async () => {
+  //   if (!signer || !contracts) return
+  //   const contract = Lock__factory.connect(contracts.Lock.address, signer)
+  //   try {
+  //     const owner = await contract.owner()
+  //     console.log({ owner })
+  //   } catch (e) {
+  //     console.error(e)
+  //   }
+  // }
 
-  const withdraw = async () => {
-    if (!signer || !contracts) return
-    const contract = Lock__factory.connect(contracts.Lock.address, signer)
-    try {
-      const tsx = await contract.withdraw({ gasLimit: 50000 })
-      const receipt = await tsx.wait()
-      console.log({ receipt })
-    } catch (e: any) {
-      console.error(e)
-    }
-  }
+  // const withdraw = async () => {
+  //   if (!signer || !contracts) return
+  //   const contract = Lock__factory.connect(contracts.Lock.address, signer)
+  //   try {
+  //     const tsx = await contract.withdraw({ gasLimit: 50000 })
+  //     const receipt = await tsx.wait()
+  //     console.log({ receipt })
+  //   } catch (e: any) {
+  //     console.error(e)
+  //   }
+  // }
 
   return (
     <>
@@ -46,8 +46,8 @@ const HomePage: NextPage = () => {
         {signer && (
           <div tw="flex mt-8 items-center text-sm">
             <div tw="text-gray-400 mr-2">Lock.sol:</div>
-            <Button onClick={() => getOwner()}>Get Owner</Button>
-            <Button onClick={() => withdraw()}>Withdraw</Button>
+            {/* <Button onClick={() => getOwner()}>Get Owner</Button> */}
+            {/* <Button onClick={() => withdraw()}>Withdraw</Button> */}
           </div>
         )}
       </CenterBody>

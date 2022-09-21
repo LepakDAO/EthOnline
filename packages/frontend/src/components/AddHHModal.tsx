@@ -56,7 +56,12 @@ export default function AddHHModal({ isOpen, onClose }: { isOpen: boolean; onClo
         value={description}
         onChange={onChangeValue}
       />
-      <UploadBox title="Drop Images" />
+      <UploadBox
+        title="Drop Images"
+        onFileChanged={(e: any) => {
+          console.log(e)
+        }}
+      />
       <Button onClick={onDonateSubmit}>{buttonMsg}</Button>
     </CustomModal>
   )
