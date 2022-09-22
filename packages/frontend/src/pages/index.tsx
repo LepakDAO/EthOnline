@@ -1,7 +1,7 @@
 import { CenterBody } from '@components/layout/CenterBody'
 // import { Lock__factory } from '@lepakdao/contracts/typechain-types'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { useDeployments } from '@shared/useDeployments'
+// import { useDeployments } from '@shared/useDeployments'
 import type { NextPage } from 'next'
 import 'twin.macro'
 import tw from 'twin.macro'
@@ -11,7 +11,7 @@ const Button = tw.button`m-2 px-2 py-1 rounded-lg border border-gray-400 text-gr
 
 const HomePage: NextPage = () => {
   const { data: signer } = useSigner()
-  const { contracts } = useDeployments()
+  // const { contracts } = useDeployments()
 
   // const getOwner = async () => {
   //   if (!signer || !contracts) return

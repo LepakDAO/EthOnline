@@ -6,6 +6,7 @@ import { FormInput } from './common/FormInput'
 import { useAccount, useConnect, useDisconnect, useFeeData } from 'wagmi'
 import { env } from '@shared/environment'
 import { ethers } from 'ethers'
+import { defaultAbiCoder as abi } from '@ethersproject/abi'
 import { useRouter } from 'next/router'
 import { UploadBox } from './common/UploadBox'
 import ModalContainer from './modal/ModalContainer'
@@ -20,6 +21,8 @@ import LepakCore from '@artifacts/contracts/LepakCore.sol/LepakCore.json'
 import { WidgetProps } from '@worldcoin/id'
 import { solidityKeccak256, solidityPack } from 'ethers/lib/utils'
 import { keccak256 } from '@ethersproject/solidity'
+import { useNotification } from '@web3uikit/core'
+import { Notification, sendTargetedNotif } from './EPNS'
 
 const WorldIDWidget = dynamic<WidgetProps>(
   () => import('@worldcoin/id').then((mod) => mod.WorldIDWidget),
@@ -66,11 +69,22 @@ export default function JoinModal({
   const [goToDashBoard, setGoToDashboard] = useState<boolean>(false)
   const [worldIDProof, setWorldIDProof] = useState<any>(null)
   const router = useRouter()
-
   const { data: signer } = useSigner()
   const { contracts } = useContracts()
-
+  const dispatch = useNotification()
   const onJoin = async () => {
+    // checker to see if values are not empty
+    if (
+      !name ||
+      !email ||
+      !twitter ||
+      !telegram ||
+      !description
+      // || !image
+    ) {
+      toast.error('Please enter all values in the form!')
+      return
+    }
     if (!worldIDProof) return
 
     if (!signer || !contracts) return
@@ -103,12 +117,58 @@ export default function JoinModal({
         { gasLimit: 1000000 }
       )
       receipt = await tsx.wait()
-      toast.success('Registered Succefully')
+      console.log(receipt)
     } catch (e) {
       console.error(e)
       setButtonMsg('Join')
       return
     }
+
+    try {
+      // check if transaction is sucessful
+      if (receipt.status === 1) {
+        toast.success('Transaction Successful')
+        setButtonMsg('Notifying LepakDao...')
+
+        //// [EPNS Section]
+        // create EPNS notification
+        const broadcastNotification: Notification = {
+          recipientAddr: address,
+          title: 'New Lepak Member',
+          // body: `${name}[${address}] has applied for LepakDao!`,
+          body: `${name} has applied for LepakDao!`,
+          cta: `https://lepakdao.xyz/u/${address}`,
+          // using LepakDao logo for now
+          imgLink: 'https://avatars.githubusercontent.com/u/113761179?s=200&v=4',
+        }
+
+        // Debug
+        console.log(broadcastNotification)
+        // broadcast notification to LepakDao channel
+        const resp = await sendTargetedNotif(broadcastNotification, 1)
+        console.log(resp.status)
+        // if successful, show a popup
+        if (resp.status === 204) {
+          dispatch({
+            type: 'success',
+            message: 'LepakDao Members will contact you soon!',
+            title: 'EPNS Message Broadcast',
+            position: 'topR',
+          })
+        } else {
+          dispatch({
+            type: 'warning',
+            message: `EPNS message sending failed!`,
+            title: 'EPNS Message Broadcast',
+            position: 'topR',
+          })
+        }
+        toast.success('Registered Successfully')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
     setGoToDashboard(true)
     setButtonMsg('Go to Dashboard')
   }
