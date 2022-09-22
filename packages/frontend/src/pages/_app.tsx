@@ -1,7 +1,7 @@
 import { Layout } from '@components/layout/Layout'
 import { cache } from '@emotion/css'
 import { CacheProvider } from '@emotion/react'
-import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { lightTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import { chains, wagmiClient } from '@shared/wagmiClient'
 import GlobalStyles from '@styles/GlobalStyles'
@@ -66,7 +66,14 @@ function MyApp({ Component, pageProps }: AppProps) {
         <GlobalStyles />
 
         <WagmiConfig client={wagmiClient}>
-          <RainbowKitProvider chains={chains}>
+          <RainbowKitProvider
+            chains={chains}
+            theme={lightTheme({
+              accentColor: '#783FEC',
+              accentColorForeground: 'white',
+              borderRadius: 'medium',
+            })}
+          >
             <Layout>
               <Component {...pageProps} />
             </Layout>

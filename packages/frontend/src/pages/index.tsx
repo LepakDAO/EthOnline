@@ -1,56 +1,70 @@
-import { CenterBody } from '@components/layout/CenterBody'
-// import { Lock__factory } from '@lepakdao/contracts/typechain-types'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
-// import { useDeployments } from '@shared/useDeployments'
+import Navbar from '@components/Navbar'
 import type { NextPage } from 'next'
+import background from '../../public/images/landing-background.png'
+import Image from 'next/image'
 import 'twin.macro'
 import tw from 'twin.macro'
 import { useSigner } from 'wagmi'
+import { Wrapper } from '@components/layout/Wrapper'
+import livepeer from '../../public/images/livepeer.svg'
+import worldcoin from '../../public/images/worldcoin.svg'
+import superfluid from '../../public/images/superfluid.svg'
+import polygon from '../../public/images/polygon.svg'
+import ipfs from '../../public/images/ipfs.svg'
+import graph from '../../public/images/graph.svg'
+import skale from '../../public/images/skale.svg'
+import epns from '../../public/images/epns.svg'
 
-const Button = tw.button`m-2 px-2 py-1 rounded-lg border border-gray-400 text-gray-400 hover:text-white`
+const sponsors = [livepeer, worldcoin, superfluid, polygon, ipfs, graph, skale, epns]
 
 const HomePage: NextPage = () => {
-  const { data: signer } = useSigner()
-  // const { contracts } = useDeployments()
-
-  // const getOwner = async () => {
-  //   if (!signer || !contracts) return
-  //   const contract = Lock__factory.connect(contracts.Lock.address, signer)
-  //   try {
-  //     const owner = await contract.owner()
-  //     console.log({ owner })
-  //   } catch (e) {
-  //     console.error(e)
-  //   }
-  // }
-
-  // const withdraw = async () => {
-  //   if (!signer || !contracts) return
-  //   const contract = Lock__factory.connect(contracts.Lock.address, signer)
-  //   try {
-  //     const tsx = await contract.withdraw({ gasLimit: 50000 })
-  //     const receipt = await tsx.wait()
-  //     console.log({ receipt })
-  //   } catch (e: any) {
-  //     console.error(e)
-  //   }
-  // }
+  const renderSponsors = () => {
+    const renderedSponsors = sponsors.map((sponsor) => {
+      return (
+        <a
+          href="#"
+          target="_blank"
+          tw="cursor-pointer grayscale opacity-80 hover:(opacity-100 grayscale-0)"
+          key={sponsor}
+        >
+          <Image src={sponsor} width={120} height={75} alt="Worldcoin" />
+        </a>
+      )
+    })
+    return <div tw="flex flex-wrap space-x-10 justify-center">{renderedSponsors}</div>
+  }
 
   return (
     <>
-      <CenterBody>
-        {/* Rainbowkit Connect Button */}
-        <ConnectButton />
+      <Navbar />
+      <div style={{ zIndex: '-1' }} tw="w-full h-screen overflow-hidden absolute top-0">
+        <Image alt="lepak-logo" layout="fill" objectFit="cover" src={background}></Image>
+      </div>
+      <div tw="flex flex-wrap items-center justify-center h-screen w-full absolute top-0">
+        <h1 style={{ fontSize: '5vw', lineHeight: '6vw' }} tw="z-20 text-center font-black mt-24">
+          <span tw="text-transparent bg-clip-text bg-gradient-to-r from-[#3D6DE3] to-[#BD00FF]">
+            Connecting Builders
+          </span>
+          <br /> in South East Asia.
+        </h1>
+        <div tw="w-full mt-10 flex justify-center">
+          <p style={{ fontSize: '2.4vh' }} tw="text-center w-1/2 text-gray-500">
+            Build lasting connection with DAO members, enjoy co-working and co-living spaces IRL,
+            on-chain membership roles, governance and much more!
+          </p>
+        </div>
+        <div tw="w-full flex justify-center mt-8">
+          <button tw="py-4 px-36 bg-gradient-to-r from-[#3D6DE3] to-[#BD00FF] rounded-xl font-bold">
+            Join now!
+          </button>
+        </div>
 
-        {/* Lock.sol Contract Interactions */}
-        {signer && (
-          <div tw="flex mt-8 items-center text-sm">
-            <div tw="text-gray-400 mr-2">Lock.sol:</div>
-            {/* <Button onClick={() => getOwner()}>Get Owner</Button> */}
-            {/* <Button onClick={() => withdraw()}>Withdraw</Button> */}
-          </div>
-        )}
-      </CenterBody>
+        <div className="w-full mt-8">
+          <Wrapper>
+            <div tw="flex flex-col items-center mb-5">{renderSponsors()}</div>
+          </Wrapper>
+        </div>
+      </div>
     </>
   )
 }
