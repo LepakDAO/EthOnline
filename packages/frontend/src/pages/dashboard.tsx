@@ -4,7 +4,8 @@ import { InfoTile } from '../components/common/InfoTile'
 import { InfoPanel } from '../components/common/InfoPanel'
 import { CustomLayout } from '../components/common/CustomLayout'
 import { Proposal } from '../components/Proposal'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import { RevenueChart } from '../components/RevenueChart'
 
 const proposals = [
@@ -40,6 +41,24 @@ const proposals = [
 
 const Dashboard: NextPage = () => {
   const [admin, setAdmin] = useState(true)
+
+  useEffect(() => {
+    ;(async () => {
+      const res = await fetch(
+        `https://livepeer.studio/api/stream?streamsonly=1&filters=[{"id": "isActive", "value": true}]`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer 8fead2ad-44a1-480b-92fd-e648aad439a0`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+
+      const data = await res.json()
+      console.log(data)
+    })()
+  }, [])
 
   return (
     <CustomLayout>

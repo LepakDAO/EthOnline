@@ -151,6 +151,7 @@ importers:
       react-hot-toast: ^2.4.0
       react-icons: ^4.4.0
       react-modal: ^3.15.1
+      react-router-dom: ^6.4.1
       react-tippy: ^1.4.0
       sharp: ^0.30.7
       styled-components: ^5.3.5
@@ -199,6 +200,7 @@ importers:
       react-hot-toast: 2.4.0_pwge5r66yg44rq5pj4ruhckhdm
       react-icons: 4.4.0_react@17.0.2
       react-modal: 3.15.1_sfoxds7t5ydpegc3knd667wn6m
+      react-router-dom: 6.4.1_sfoxds7t5ydpegc3knd667wn6m
       react-tippy: 1.4.0
       sharp: 0.30.7
       styled-components: 5.3.5_v5ja746gkdtknuc6tj46sve3be
@@ -4593,6 +4595,11 @@ packages:
     resolution: {integrity: sha512-K0aGNn1TjalKj+65D7ycc1//H9roAQ51GJVk5ZJQFb2teECGmzd86bYDC0aYdbRf7gtovescq4Zt6FR0tgXiHQ==}
     dev: false
 
+  /@remix-run/router/1.0.1:
+    resolution: {integrity: sha512-eBV5rvW4dRFOU1eajN7FmYxjAIVz/mRHgUE9En9mBn6m3mulK3WTR5C3iQhL9MZ14rWAq+xOlEaCkDiW0/heOg==}
+    engines: {node: '>=14'}
+    dev: false
+
   /@resolver-engine/core/0.3.3:
     resolution: {integrity: sha512-eB8nEbKDJJBi5p5SrvrvILn4a0h42bKtbCTri3ZxCGt6UvoQyp7HnGOfki944bUjBSHKK3RvgfViHn+kqdXtnQ==}
     dependencies:
@@ -6620,7 +6627,7 @@ packages:
   /axios/0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -10722,6 +10729,7 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.4
+    dev: true
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -16968,6 +16976,29 @@ packages:
       tslib: 2.4.0
       use-callback-ref: 1.3.0_rp4jof5zhmzvplda5pykttb2ca
       use-sidecar: 1.1.2_rp4jof5zhmzvplda5pykttb2ca
+    dev: false
+
+  /react-router-dom/6.4.1_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-MY7NJCrGNVJtGp8ODMOBHu20UaIkmwD2V3YsAOUQoCXFk7Ppdwf55RdcGyrSj+ycSL9Uiwrb3gTLYSnzcRoXww==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8 || ^18.0.0'
+      react-dom: '>=16.8 || ^18.0.0'
+    dependencies:
+      '@remix-run/router': 1.0.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-router: 6.4.1_react@17.0.2
+    dev: false
+
+  /react-router/6.4.1_react@17.0.2:
+    resolution: {integrity: sha512-OJASKp5AykDWFewgWUim1vlLr7yfD4vO/h+bSgcP/ix8Md+LMHuAjovA74MQfsfhQJGGN1nHRhwS5qQQbbBt3A==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8 || ^18.0.0'
+    dependencies:
+      '@remix-run/router': 1.0.1
+      react: 17.0.2
     dev: false
 
   /react-shallow-renderer/16.15.0_react@17.0.2:
