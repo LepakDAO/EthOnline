@@ -14,9 +14,11 @@ import ipfs from '../../public/images/ipfs.svg'
 import graph from '../../public/images/graph.svg'
 import skale from '../../public/images/skale.svg'
 import epns from '../../public/images/epns.svg'
+import sismo from '../../public/images/sismo.svg'
+import tellor from '../../public/images/tellor.svg'
 import Link from 'next/link'
 
-const sponsors = [livepeer, worldcoin, superfluid, polygon, ipfs, graph, skale, epns]
+const sponsors = [livepeer, worldcoin, superfluid, polygon, ipfs, graph, skale, epns, sismo, tellor]
 
 const HomePage: NextPage = () => {
   const renderSponsors = () => {
