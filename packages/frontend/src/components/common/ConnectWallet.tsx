@@ -51,11 +51,12 @@ export default function ConnectWallet() {
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: end;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 0.7vw;
 `
 
 const StyledButton = styled(Button)`
-  width: 294px;
-  height: 59px;
+  width: 10vw;
+  height: 2vw;
 `
