@@ -1,0 +1,24 @@
+specVersion: 0.0.4
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: LepakCore
+    network: matic
+    source:
+      address: "0x086636172bAB74d87Ce89BE93660Ea105eC249B9"
+      abi: LepakCore
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - NewMember
+        - OwnershipTransferred
+      abis:
+        - name: LepakCore
+          file: LepakCore/abis/LepakCore.json
+      eventHandlers:
+        - event: NewMember(address,uint256)
+          handler: handleNewMember
+      file: LepakCore/LepakCore.wasm
