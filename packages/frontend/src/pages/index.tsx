@@ -14,6 +14,7 @@ import ipfs from '../../public/images/ipfs.svg'
 import graph from '../../public/images/graph.svg'
 import skale from '../../public/images/skale.svg'
 import epns from '../../public/images/epns.svg'
+import Link from 'next/link'
 
 const sponsors = [livepeer, worldcoin, superfluid, polygon, ipfs, graph, skale, epns]
 
@@ -27,7 +28,7 @@ const HomePage: NextPage = () => {
           tw="cursor-pointer grayscale opacity-80 hover:(opacity-100 grayscale-0)"
           key={sponsor}
         >
-          <Image src={sponsor} width={120} height={75} alt="Worldcoin" />
+          <Image src={sponsor} width={120} height={75} alt="sponsor-icon" />
         </a>
       )
     })
@@ -54,9 +55,11 @@ const HomePage: NextPage = () => {
           </p>
         </div>
         <div tw="w-full flex justify-center mt-8">
-          <button tw="py-4 px-36 bg-gradient-to-r from-[#3D6DE3] to-[#BD00FF] rounded-xl font-bold">
-            Join now!
-          </button>
+          <Link href="/join">
+            <button tw="py-4 px-36 bg-gradient-to-r from-[#3D6DE3] to-[#BD00FF] rounded-xl font-bold hover:scale-105 duration-300 transition">
+              Join now!
+            </button>
+          </Link>
         </div>
 
         <div className="w-full mt-8">

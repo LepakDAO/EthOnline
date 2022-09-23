@@ -2,15 +2,16 @@ import styled from 'styled-components'
 
 export const FormInput = styled.input`
   background-color: #232227;
-  width: 259px;
+  width: 10vw;
   contenteditable: true;
-  height: 60px;
+  height: 2vw;
   border-radius: 15px;
   appearance: none;
+  outline: none;
   ::placeholder,
   ::-webkit-input-placeholder {
     color: ${({ theme }) => theme.colors.textInputColor};
-    font-size: 20px;
-    padding-left: 20px;
+    font-size: 1vw;
+    padding-left: 0vw;
   }
 `

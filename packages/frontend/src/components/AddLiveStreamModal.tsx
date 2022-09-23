@@ -39,23 +39,23 @@ export default function AddLiveStreamModal({
   return (
     <CustomModal title="Add new livestream" isOpen={isOpen} onClose={onClose}>
       <AmountFormInput
-        style={{ width: '564px' }}
+        style={{ width: '30vw' }}
         placeholder="Name"
         value={name}
         onChange={onChangeValue}
       />
       <FormInputContainer>
         <AmountFormInput
-          style={{ marginRight: '46px' }}
+          style={{ marginRight: '1vw' }}
           placeholder="Start Time"
           value={startTime}
           onChange={onChangeValue}
         />
         <AmountFormInput placeholder="Hosts" value={hosts} onChange={onChangeValue} />
       </FormInputContainer>
-      <AmountFormInput
-        style={{ width: '564px', height: '135px' }}
-        placeholder="Description"
+      <TextArea
+        style={{ width: '30vw', height: '7vw' }}
+        placeholder="Why do you want to join Lepak DAO?"
         value={description}
         onChange={onChangeValue}
       />
@@ -72,8 +72,27 @@ export default function AddLiveStreamModal({
 
 const FormInputContainer = styled.div`
   display: flex;
+  width: 30vw;
 `
 
 const AmountFormInput = styled(FormInput)`
-  margin-bottom: 44px;
+  margin-bottom: 2vw;
+  height: 3.5vw;
+  width: 14.5vw;
+  outline: none;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  font-size: 1vw;
+`
+const TextArea = styled.textarea`
+  background-color: #232227;
+  border-radius: 15px;
+  padding: 1vw;
+  outline: none;
+  margin-bottom: 2vw;
+  font-size: 1vw;
+  ::placeholder {
+    color: ${({ theme }) => theme.colors.textInputColor};
+    font-size: 1vw;
+  }
 `

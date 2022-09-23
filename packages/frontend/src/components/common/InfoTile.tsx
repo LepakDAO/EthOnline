@@ -19,14 +19,15 @@ export const InfoTile = ({
 }
 
 const Wrapper = styled.div`
-  border-radius: 30px;
+  border-radius: 20px;
   background-color: ${({ theme }) => theme.colors.bgColor};
-  width: 204px;
-  height: 196px;
+  width: 9vw;
+  height: 8vw;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-right: 55px;
+  justify-content: center;
+  margin-right: 2vw;
   padding: 15px;
 `
 
@@ -34,11 +35,11 @@ const Image = styled.div``
 
 const Title = styled.div`
   color: ${({ theme }) => theme.colors.white};
-  font-size: 30px;
-  margin: 10px 0 6px 2px;
+  font-size: 1.2vw;
+  margin: 0.3vw 0 0.1vw 0.05vw;
 `
 
 const Description = styled.div`
   color: ${({ theme }) => theme.colors.textColor};
-  font-size: 15px;
+  font-size: 0.7vw;
 `

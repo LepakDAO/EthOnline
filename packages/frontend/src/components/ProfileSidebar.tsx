@@ -32,8 +32,8 @@ export const ProfileSidebar = () => {
       <Profile user={user} />
       <Badge>
         <svg
-          width="166"
-          height="166"
+          width="8vw"
+          height="8vw"
           viewBox="0 0 166 166"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -63,11 +63,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1rem 0;
-  width: 386px;
-  height: 1208px;
-  margin: 0 55px;
-  border-radius: 30px;
+  width: 17vw;
+  height: 50vw;
+  margin: 0 1vw 0 0;
+  border-radius: 20px;
   background-color: ${({ theme }) => theme.colors.bgColor};
   border: 2px solid ${({ theme }) => theme.colors.strokeColor};
 `
@@ -76,16 +75,16 @@ const LogoContainer = styled.div`
   &:hover {
     cursor: pointer;
   }
-  margin: 36px 0 76px 0;
+  margin: 1.5vw 0 2.5vw 0;
 `
 
 const Logo = styled.h1`
-  font-size: 40px;
+  font-size: 2vw;
   font-weight: 600;
 `
 
 const Badge = styled.div`
-  margin: 158px 0 122px 0;
+  margin: 4vw 0 4vw 0;
 `
 
 const Info = styled.div`
@@ -93,11 +92,11 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 45px;
+  margin-bottom: 2vw;
   p {
-    font-size: 15px;
+    font-size: 0.7vw;
   }
   h1 {
-    font-size: 25px;
+    font-size: 1vw;
   }
 `
