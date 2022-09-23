@@ -24,7 +24,7 @@ export const Meeting = ({ meeting }: { meeting: MeetingProps }) => {
 }
 
 const Wrapper = styled.div`
-  margin-bottom: 23px;
+  margin-bottom: 1vw;
 `
 
 const MainContainer = styled.div`
@@ -34,8 +34,8 @@ const MainContainer = styled.div`
 `
 
 const Status = styled.div`
-  width: 11px;
-  height: 11px;
+  width: 0.5vw;
+  height: 0.5vw;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.colors.themeColor};
 `
@@ -44,17 +44,18 @@ const MeetingContainer = styled.div`
   display: flex;
   flex-direction: column;
   h1 {
-    font-size: 15px;
+    font-size: 0.9vw;
   }
   p {
-    font-size: 10px;
+    font-size: 0.7vw;
+    margin-top: 0.2vw;
     color: ${({ theme }) => theme.colors.textColor};
   }
 `
 
 const IconContainer = styled.div`
-  width: 36px;
-  height: 36px;
+  width: 1.5vw;
+  height: 1.5vw;
   background-color: rgba(63, 63, 167, 0.12);
   border-radius: 50%;
   display: flex;
@@ -62,6 +63,6 @@ const IconContainer = styled.div`
   justify-content: center;
   svg {
     color: ${({ theme }) => theme.colors.themeColor};
-    font-size: 17px;
+    font-size: 1.2vw;
   }
 `

@@ -5,22 +5,26 @@ import styled from 'styled-components'
 import { AiFillPicture } from 'react-icons/ai'
 const { Dragger } = Upload
 
-
 const props = {
   name: 'file',
   multiple: false,
-  onDrop(e : any) {
+  onDrop(e: any) {
     console.log('Dropped files', e.dataTransfer.files)
   },
 }
 
-export const UploadBox = ({ title , onFileChanged}: { title: string , onFileChanged : any}) => (
-  <Dragger {...props} onChange={(info)=>{onFileChanged(info)}}>
+export const UploadBox = ({ title, onFileChanged }: { title: string; onFileChanged: any }) => (
+  <Dragger
+    {...props}
+    onChange={(info) => {
+      onFileChanged(info)
+    }}
+  >
     <Wrapper>
       <svg
-        style={{ margin: '40px 0 15px 0' }}
-        width="53"
-        height="52"
+        style={{ margin: '3vw 0 0.5vw 0' }}
+        width="30"
+        height="30"
         viewBox="0 0 53 52"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +36,7 @@ export const UploadBox = ({ title , onFileChanged}: { title: string , onFileChan
           fill="#6868B4"
         />
       </svg>
-      <p>{title}</p>
+      <p style={{ fontSize: '1vw' }}>{title}</p>
     </Wrapper>
   </Dragger>
 )
@@ -41,12 +45,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 564px;
-  height: 175px;
+  width: 30vw;
+  height: 10vw;
   color: ${({ theme }) => theme.colors.textInputColor};
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%236868B4' stroke-width='5' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
   border-radius: 15px;
-  margin-bottom: 86px;
+  margin-bottom: 3vw;
   p {
     font-size: 20px;
   }

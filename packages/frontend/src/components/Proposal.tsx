@@ -28,7 +28,7 @@ export const Proposal = ({
   return (
     <Wrapper>
       <ProfilePictureWrapper>
-        <Image src={proposal.image} width="54px" height="54px" />
+        <Image src={proposal.image} width="45px" height="45px" />
       </ProfilePictureWrapper>
       <Role>{proposal.role}</Role>
       <Desc>
@@ -50,8 +50,8 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   color: ${({ theme }) => theme.colors.textColor};
-  font-size: 15px;
-  padding: 20px 40px 20px 20px;
+  font-size: 0.8vw;
+  padding: 1.5vw 2vw 1.5vw 1.5vw;
 `
 
 const ProfilePictureWrapper = styled.div`
@@ -60,7 +60,7 @@ const ProfilePictureWrapper = styled.div`
   border-radius: 50%;
   overflow: hidden;
   align-items: center;
-  margin-right: 35px;
+  margin-right: 1vw;
 `
 
 const Role = styled.div``
@@ -70,22 +70,22 @@ const Desc = styled.div``
 const Date = styled.div``
 
 const StyledButton = styled(PrimaryButton)`
-  width: 122px;
-  height: 37px;
-  font-size: 15px;
+  width: 10vw;
+  height: 2vw;
+  font-size: 1vw;
   line-height: 0px;
 `
 
 const IconContainer = styled.div`
   svg {
     color: ${({ theme }) => theme.colors.themeColor};
-    font-size: 37px;
+    font-size: 1.2vw;
   }
 `
 
 const CheckBox = styled.div`
-  width: 37px;
-  height: 37px;
+  width: 1.2vw;
+  height: 1.2vw;
   border-radius: 50%;
   border: 3px solid ${({ theme }) => theme.colors.themeColor};
 `

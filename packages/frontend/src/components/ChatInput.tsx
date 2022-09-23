@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import { FormInput } from "./common/FormInput";
+import styled from 'styled-components'
+import { FormInput } from './common/FormInput'
 
 export const ChatInput = () => {
   return (
     <Wrapper>
       <StyledInput placeholder="Start a message" />
       <svg
-        width="29"
-        height="28"
+        width="25"
+        height="25"
         viewBox="0 0 29 28"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -20,18 +20,19 @@ export const ChatInput = () => {
         />
       </svg>
     </Wrapper>
-  );
-};
+  )
+}
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 25px;
-`;
+  margin: 0 1vw;
+`
 
 const StyledInput = styled(FormInput)`
-  font-size: 15px !important;
-  width: 321px;
-  height: 43px;
-`;
+  font-size: 0.7vw !important;
+  width: 80%;
+  height: 2.5vw;
+  padding: 1vw;
+`

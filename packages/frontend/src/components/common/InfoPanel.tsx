@@ -37,10 +37,11 @@ export const InfoPanel = ({
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.bgColor};
   color: ${({ theme }) => theme.colors.white};
-  font-size: 25px;
-  border-radius: 30px;
-  padding: 20px;
-  margin-right: 45px;
+  font-size: 1vw;
+  border-radius: 20px;
+  padding: 0.7vw;
+  margin-right: 1vw;
+  overflow: scroll;
 `
 
 const TitleContainer = styled.div`
@@ -51,12 +52,12 @@ const TitleContainer = styled.div`
 
 const Title = styled.div`
   font-weight: 600;
-  font-size: 25px;
+  font-size: 1vw;
 `
 
 const IconContainer = styled.div`
-  width: 36px;
-  height: 36px;
+  width: 2vw;
+  height: 2vw;
   background-color: rgba(63, 63, 167, 0.12);
   border-radius: 50%;
   display: flex;
@@ -64,7 +65,7 @@ const IconContainer = styled.div`
   justify-content: center;
   svg {
     color: ${({ theme }) => theme.colors.themeColor};
-    font-size: 17px;
+    font-size: 1vw;
   }
   &:hover {
     cursor: pointer;
