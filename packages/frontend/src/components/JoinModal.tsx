@@ -68,10 +68,26 @@ export default function JoinModal({
   const [image, SetImage] = useState<File>()
   const [goToDashBoard, setGoToDashboard] = useState<boolean>(false)
   const [worldIDProof, setWorldIDProof] = useState<any>(null)
+  const [alreadyJoined, setAlreadyJoined] = useState<boolean>(false)
   const router = useRouter()
   const { data: signer } = useSigner()
   const { contracts } = useContracts()
   const dispatch = useNotification()
+
+  useEffect(() => {
+    const fn = async () => {
+      if (!signer || !address) return
+      const contract = new ethers.Contract(
+        contracts.LepakCore,
+        LepakCore.abi,
+        signer!
+      ) as LepakCoreType
+      const isMember = await contract.isMember(address)
+      if (isMember == true) router.push(`/dashboard/`)
+    }
+    fn()
+  }, [signer])
+
   const onJoin = async () => {
     // checker to see if values are not empty
     if (
