@@ -90,7 +90,7 @@ export default function JoinModal({
       }
     }
     fn()
-  }, [signer])
+  }, [signer, address])
 
   const onJoin = async () => {
     // checker to see if values are not empty
