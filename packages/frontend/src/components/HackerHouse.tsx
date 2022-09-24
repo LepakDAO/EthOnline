@@ -10,8 +10,8 @@ export const HackerHouse = ({ hackerHouse }: { hackerHouse: HHProps }) => {
       <MainContainer>
         <SVGContainer>
           <svg
-            width="28"
-            height="28"
+            width="1vw"
+            height="1vw"
             viewBox="0 0 28 28"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +34,7 @@ export const HackerHouse = ({ hackerHouse }: { hackerHouse: HHProps }) => {
 }
 
 const Wrapper = styled.div`
-  margin-bottom: 23px;
+  margin-bottom: 1.5vw;
 `
 
 const MainContainer = styled.div`
@@ -42,17 +42,17 @@ const MainContainer = styled.div`
 `
 
 const SVGContainer = styled.div`
-  width: 47px;
-  height: 47px;
+  width: 1.5vw;
+  height: 1.5vw;
   background-color: rgba(63, 63, 167, 0.12);
   border-radius: 10px;
   display: flex;
-  margin-right: 16px;
+  margin-right: 0.5vw;
   align-items: center;
   justify-content: center;
   svg {
     color: ${({ theme }) => theme.colors.themeColor};
-    font-size: 28px;
+    font-size: 1vw;
   }
 `
 
@@ -60,10 +60,11 @@ const HHContainer = styled.div`
   display: flex;
   flex-direction: column;
   h1 {
-    font-size: 15px;
+    font-size: 0.9vw;
   }
   p {
-    font-size: 10px;
+    font-size: 0.7vw;
+    margin-top: 0.2vw;
     color: ${({ theme }) => theme.colors.textColor};
   }
 `

@@ -21,7 +21,6 @@ export default function ModalContainer({
 }
 
 const Wrapper = styled.div`
-  min-width: 350px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,12 +28,12 @@ const Wrapper = styled.div`
 
 const TitleContainer = styled.div`
   display: flex;
-  margin: 25px 0 65px 0;
+  margin: 0vw 0 3vw 0;
 `
 
 const Title = styled.p`
   font-weight: 600;
-  font-size: 40px;
+  font-size: 2vw;
 `
 
 const ContentContainer = styled.div`

@@ -12,6 +12,7 @@ import axios from 'axios'
 export type HHProps = {
   name: string
   duration: string
+  pricesPerRoom: Array
 }
 
 export type MeetingProps = {
@@ -32,10 +33,12 @@ export const ContactSidebar = (admin: any) => {
       {
         name: 'Kuala Lumpur HH 🌇',
         duration: 'Sept 28 2022 - Dec 28 2022',
+        pricesPerRoom: [100, 200, 300],
       },
       {
         name: 'Bali HH 🏝',
         duration: 'Oct 28 2022 - Feb 28 2023',
+        pricesPerRoom: [100, 200, 300],
       },
     ])
   }, [])
@@ -125,16 +128,16 @@ export const ContactSidebar = (admin: any) => {
 const Wrapper = styled.div``
 
 const MainContainer = styled.div`
-  padding: 30px 25px;
+  padding: 1.5vw 1vw;
   border: 2px solid #13131b;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-top: 59px;
-  width: 294px;
-  height: 1098px;
+  margin-top: 2vw;
+  width: 18vw;
+  height: 46vw;
   border: 2px solid ${({ theme }) => theme.colors.strokeColor};
-  border-radius: 30px;
+  border-radius: 20px;
   background-color: ${({ theme }) => theme.colors.bgColor};
 `
 
@@ -146,17 +149,17 @@ const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 1.2vw;
 `
 
 const Title = styled.div`
   font-weight: 600;
-  font-size: 25px;
+  font-size: 1vw;
 `
 
 const IconContainer = styled.div`
-  width: 36px;
-  height: 36px;
+  width: 1.5vw;
+  height: 1.5vw;
   background-color: rgba(63, 63, 167, 0.12);
   border-radius: 50%;
   display: flex;
@@ -164,7 +167,7 @@ const IconContainer = styled.div`
   justify-content: center;
   svg {
     color: ${({ theme }) => theme.colors.themeColor};
-    font-size: 17px;
+    font-size: 1.2vw;
   }
   &:hover {
     cursor: pointer;
@@ -172,11 +175,11 @@ const IconContainer = styled.div`
 `
 
 const StyledButton = styled(PrimaryButton)`
-  width: 175px;
-  height: 40px;
-  font-size: 15px;
+  width: 8vw;
+  height: 2vw;
+  font-size: 0.8vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 30px;
+  margin: 0 auto;
 `

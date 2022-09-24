@@ -15,6 +15,7 @@
     "deploy": "pnpm hardhat node",
     "deploy:mumbai": "pnpm hardhat deploy --network mumbai",
     "deploy:polygon": "pnpm hardhat deploy --network polygon",
+    "deploy:skale": "pnpm hardhat deploy --network skale",
     "verify:mumbai": "source .env && pnpm hardhat etherscan-verify --network mumbai --api-key $POLYGONSCAN_API_KEY",
     "verify:goerli": "pnpm hardhat etherscan-verify --network goerli"
   },

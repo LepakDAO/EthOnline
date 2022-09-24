@@ -7,7 +7,6 @@ import { useAccount, useConnect, useDisconnect, useFeeData } from 'wagmi'
 import { env } from '@shared/environment'
 import { ethers } from 'ethers'
 import { defaultAbiCoder as abi } from '@ethersproject/abi'
-import { WorldIDComponent } from './WorldIDComponent'
 import { useRouter } from 'next/router'
 import { UploadBox } from './common/UploadBox'
 import ModalContainer from './modal/ModalContainer'
@@ -22,6 +21,8 @@ import LepakCore from '@artifacts/contracts/LepakCore.sol/LepakCore.json'
 import { WidgetProps } from '@worldcoin/id'
 import { solidityKeccak256, solidityPack } from 'ethers/lib/utils'
 import { keccak256 } from '@ethersproject/solidity'
+import { useNotification } from '@web3uikit/core'
+import { Notification, sendTargetedNotif } from './EPNS'
 
 const WorldIDWidget = dynamic<WidgetProps>(
   () => import('@worldcoin/id').then((mod) => mod.WorldIDWidget),
@@ -47,18 +48,6 @@ async function storeDataToIpfs(
   return nftMetadata.ipnft
 }
 
-const encode = (param1: any) => {
-  const rawDigest = (
-    BigInt(solidityKeccak256(['bytes'], [solidityPack(['string'], [param1])])) >> BigInt(8)
-  ).toString(16)
-  console.log(rawDigest)
-  return `0x${rawDigest.padStart(64, '0')}`
-}
-
-const hashBytes = (input: any) => {
-  return abi.encode(['uint256'], [BigInt(keccak256(['bytes'], [input])) >> BigInt(8)])
-}
-
 export default function JoinModal({
   isOpen,
   onClose,
@@ -79,13 +68,40 @@ export default function JoinModal({
   const [image, SetImage] = useState<File>()
   const [goToDashBoard, setGoToDashboard] = useState<boolean>(false)
   const [worldIDProof, setWorldIDProof] = useState<any>(null)
+  const [alreadyJoined, setAlreadyJoined] = useState<boolean>(false)
   const router = useRouter()
-
   const { data: signer } = useSigner()
   const { contracts } = useContracts()
+  const dispatch = useNotification()
+
+  useEffect(() => {
+    const fn = async () => {
+      if (!signer || !address) return
+      const contract = new ethers.Contract(
+        contracts.LepakCore,
+        LepakCore.abi,
+        signer
+      ) as LepakCoreType
+      const isMember = await contract.isMember(address!)
+      if (isMember == true) router.push(`/dashboard/`)
+    }
+    fn()
+  }, [signer])
 
   const onJoin = async () => {
-    if (!worldIDProof) return
+    // checker to see if values are not empty
+    if (
+      !name ||
+      !email ||
+      !twitter ||
+      !telegram ||
+      !description
+      // || !image
+    ) {
+      toast.error('Please enter all values in the form!')
+      return
+    }
+    // if (!worldIDProof) return
 
     if (!signer || !contracts) return
 
@@ -95,7 +111,14 @@ export default function JoinModal({
     }
     setButtonMsg('Loading...')
     //TODO : UNCOMMENT
-    // let cid = await storeDataToIpfs(image,name,description,{email,twitter,telegram});
+    const today = new Date()
+    const joinedDate = today.toString().slice(0, 15)
+    const cid = await storeDataToIpfs(image, name, description, {
+      email,
+      twitter,
+      telegram,
+      joinedDate,
+    })
     toast.success('Metadata stored successfully')
     setButtonMsg('Performing Trasaction')
     //Contract interaction
@@ -107,9 +130,8 @@ export default function JoinModal({
     ) as LepakCoreType
     let receipt
     try {
-      console.log(address, worldIDProof, abi.decode(['uint256[8]'], worldIDProof.proof))
       const tsx = await contract.joinWithoutEth(
-        'testing',
+        cid,
         address,
         worldIDProof.merkle_root,
         worldIDProof.nullifier_hash,
@@ -117,12 +139,58 @@ export default function JoinModal({
         { gasLimit: 1000000 }
       )
       receipt = await tsx.wait()
-      toast.success('Registered Succefully')
+      console.log(receipt)
     } catch (e) {
       console.error(e)
       setButtonMsg('Join')
       return
     }
+
+    try {
+      // check if transaction is sucessful
+      if (receipt.status === 1) {
+        toast.success('Transaction Successful')
+        setButtonMsg('Notifying LepakDao...')
+
+        //// [EPNS Section]
+        // create EPNS notification
+        const broadcastNotification: Notification = {
+          recipientAddr: address,
+          title: 'New Lepak Member',
+          // body: `${name}[${address}] has applied for LepakDao!`,
+          body: `${name} has applied for LepakDao!`,
+          cta: `https://lepakdao.xyz/u/${address}`,
+          // using LepakDao logo for now
+          imgLink: 'https://avatars.githubusercontent.com/u/113761179?s=200&v=4',
+        }
+
+        // Debug
+        console.log(broadcastNotification)
+        // broadcast notification to LepakDao channel
+        const resp = await sendTargetedNotif(broadcastNotification, 1)
+        console.log(resp.status)
+        // if successful, show a popup
+        if (resp.status === 204) {
+          dispatch({
+            type: 'success',
+            message: 'LepakDao Members will contact you soon!',
+            title: 'EPNS Message Broadcast',
+            position: 'topR',
+          })
+        } else {
+          dispatch({
+            type: 'warning',
+            message: `EPNS message sending failed!`,
+            title: 'EPNS Message Broadcast',
+            position: 'topR',
+          })
+        }
+        toast.success('Registered Successfully')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
     setGoToDashboard(true)
     setButtonMsg('Go to Dashboard')
   }
@@ -154,7 +222,7 @@ export default function JoinModal({
       <ModalContainer title="Join Lepak DAO">
         <FormInputContainer>
           <AmountFormInput
-            style={{ marginRight: '46px' }}
+            style={{ marginRight: '1vw' }}
             placeholder="Email"
             value={email}
             onChange={(e) => {
@@ -171,7 +239,7 @@ export default function JoinModal({
         </FormInputContainer>
         <FormInputContainer>
           <AmountFormInput
-            style={{ marginRight: '46px' }}
+            style={{ marginRight: '1vw' }}
             placeholder="Twitter"
             value={twitter}
             onChange={(e) => {
@@ -186,9 +254,9 @@ export default function JoinModal({
             }}
           />
         </FormInputContainer>
-        <AmountFormInput
-          style={{ width: '564px', height: '135px' }}
-          placeholder="why do you want to join Lepak DAO"
+        <TextArea
+          style={{ width: '30vw', height: '7vw' }}
+          placeholder="Why do you want to join Lepak DAO?"
           value={description}
           onChange={(e) => {
             SetDescription(e.target.value)
@@ -210,14 +278,35 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 2rem;
-  width: 707px;
-  height: 999px;
+  width: 35vw;
+  height: 48vw;
+  margin-top: 1vw;
 `
 
 const FormInputContainer = styled.div`
   display: flex;
+  width: 30vw;
 `
 
 const AmountFormInput = styled(FormInput)`
-  margin-bottom: 44px;
+  margin-bottom: 2vw;
+  height: 3.5vw;
+  width: 14.5vw;
+  outline: none;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  font-size: 1vw;
+`
+
+const TextArea = styled.textarea`
+  background-color: #232227;
+  border-radius: 15px;
+  padding: 1vw;
+  outline: none;
+  margin-bottom: 2vw;
+  font-size: 1vw;
+  ::placeholder {
+    color: ${({ theme }) => theme.colors.textInputColor};
+    font-size: 1vw;
+  }
 `

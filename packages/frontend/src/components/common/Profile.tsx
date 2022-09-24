@@ -47,19 +47,20 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `
 
 const MainContainer = styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
-  padding-left: 10px;
+  padding-left: 1vw;
+  width: 17vw;
 `
 
 const Divider = styled.div`
   border: 1px solid #2b2b38;
-  width: 316px;
-  margin: 51px auto 93px auto;
+  width: 17vw;
+  margin: 2vw auto 3vw auto;
 `
 
 const ProfilePictureWrapper = styled.div`
@@ -69,7 +70,8 @@ const ProfilePictureWrapper = styled.div`
   overflow: hidden;
   align-items: center;
   background: #f2f2f2;
-  margin-right: 35px;
+  margin-right: 1.5vw;
+  width: 3vw;
 `
 
 const ProfilePicture = styled.img`
@@ -81,14 +83,14 @@ const NameContainer = styled.div`
 `
 
 const Name = styled.div`
-  font-size: 25px;
+  font-size: 1.2vw;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: 1vh;
 `
 
 const Role = styled.div`
   color: ${({ theme }) => theme.colors.textColor};
-  font-size: 15px;
+  font-size: 1vw;
 `
 
 const SocialMediaContainer = styled.div`
@@ -98,8 +100,8 @@ const SocialMediaContainer = styled.div`
 
 const SocialMediaItem = styled.div`
   color: ${({ theme }) => theme.colors.themeColor};
-  font-size: 37px;
-  margin-right: 37px;
+  font-size: 1.5vw;
+  margin-right: 1.5vw;
   &:hover {
     cursor: pointer;
   }

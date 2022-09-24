@@ -27,20 +27,21 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [dLepakCore.address],
     log: true,
   })
+  const dTreasury = await deploy('Treasury', {
+    from: deployer,
+    args: [dLepakCore.address],
+    log: true,
+  })
 
   const sGovernor = await ethers.provider.getSigner(governor)
   const sDeployer = await ethers.provider.getSigner(deployer)
   const cLepakMembership = await ethers.getContractAt('LepakMembership', dLepakMembership.address)
   const cLepakCore = await ethers.getContractAt('LepakCore', dLepakCore.address)
 
+  const tx0 = await cLepakCore.connect(sDeployer).setTreasury(dTreasury.address)
+  await tx0.wait()
   const tx1 = await cLepakMembership.connect(sDeployer).transferOwnership(cLepakCore.address)
   await tx1.wait()
-
-  // const tx2 = await cLepakCore.connect(sGovernor).joinWithoutEth("emerson");
-  // await tx2.wait();
-
-  const isMember = await cLepakCore.isMember(governor)
-  console.log('printing if ', governor, isMember)
 
   saveFrontendAddressFiles({
     LepakCore: cLepakCore.address,

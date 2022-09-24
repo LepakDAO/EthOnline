@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Profile from './common/Profile'
 import { BsTwitter, BsGithub } from 'react-icons/bs'
@@ -6,9 +6,16 @@ import { FaTelegramPlane } from 'react-icons/fa'
 import { GrMail } from 'react-icons/gr'
 import { Button } from './common/Button'
 import Link from 'next/link'
+import { useContracts } from '@shared/useContracts'
+import { useAccount, useSigner } from 'wagmi'
+import { ethers } from 'ethers'
+import LepakCore from '@artifacts/contracts/LepakCore.sol/LepakCore.json'
+import { LepakCore as LepakCoreType } from 'src/types/typechain'
+import axios from 'axios'
+import { Init } from '@aut-protocol/d-aut'
 
-const user = {
-  name: 'Jian Kim',
+const sampleData = {
+  name: '',
   role: 'Member',
   image: 'https://source.unsplash.com/user/c_v_r',
   socialMedia: [
@@ -20,6 +27,44 @@ const user = {
 }
 
 export const ProfileSidebar = () => {
+  const [userData, setUserData] = useState<any>(sampleData)
+  const [cid, setCid] = useState<any>()
+  const { contracts } = useContracts()
+  const { data: signer } = useSigner()
+  const { address } = useAccount()
+
+  useEffect(() => {
+    const fn = async () => {
+      if (!signer || !address) return
+      const contract = new ethers.Contract(
+        contracts.LepakCore,
+        LepakCore.abi,
+        signer
+      ) as LepakCoreType
+      const userCID = await contract.UserInfoURI(address!)
+      if (userCID != '') setCid(userCID)
+      else setCid('bafyreia2vfejs4l2kf2fvovxs4ujjqfjtrtgffhebhrxopgxvb4hkkxvta')
+    }
+    fn()
+    Init()
+  }, [])
+  if (cid && userData.name == '') {
+    axios.get(`https://ipfs.io/ipfs/${cid}/metadata.json`).then((res) => {
+      const data = res.data
+      setUserData({
+        name: data.name,
+        role: 'member',
+        image: `https://ipfs.io/ipfs/${data.image.slice(7)}`,
+        socialMedia: [
+          { name: 'telegram', link: `t.me/${data.telegram}`, icon: <FaTelegramPlane /> },
+          { name: 'twitter', link: `twitter.com/${data.twitter}`, icon: <BsTwitter /> },
+          { name: 'Email', link: `t.me/${data.email}`, icon: <GrMail /> },
+        ],
+        joinedDate: data.joinedDate,
+      })
+    })
+  }
+
   return (
     <Wrapper>
       <LogoContainer>
@@ -29,11 +74,11 @@ export const ProfileSidebar = () => {
           </Logo>
         </Link>
       </LogoContainer>
-      <Profile user={user} />
+      <Profile user={userData} />
       <Badge>
         <svg
-          width="166"
-          height="166"
+          width="8vw"
+          height="8vw"
           viewBox="0 0 166 166"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -52,9 +97,16 @@ export const ProfileSidebar = () => {
       </Info>
       <Info>
         <p>Part of Lepak since:</p>
-        <h1>24.09.2022</h1>
+        <h1>{userData.joinedDate ? userData.joinedDate : 'loading...'}</h1>
       </Info>
       <Button>Invite a friend</Button>
+      <div>
+        <d-aut
+          network="mumbai"
+          button-type="simple"
+          dao-expander="0xEbe5C31205a1B6aA225eB18FF4CafC33F9D71621"
+        ></d-aut>
+      </div>
     </Wrapper>
   )
 }
@@ -63,11 +115,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1rem 0;
-  width: 386px;
-  height: 1208px;
-  margin: 0 55px;
-  border-radius: 30px;
+  width: 17vw;
+  height: 50vw;
+  margin: 0 1vw 0 0;
+  border-radius: 20px;
   background-color: ${({ theme }) => theme.colors.bgColor};
   border: 2px solid ${({ theme }) => theme.colors.strokeColor};
 `
@@ -76,16 +127,16 @@ const LogoContainer = styled.div`
   &:hover {
     cursor: pointer;
   }
-  margin: 36px 0 76px 0;
+  margin: 1.5vw 0 2.5vw 0;
 `
 
 const Logo = styled.h1`
-  font-size: 40px;
+  font-size: 2vw;
   font-weight: 600;
 `
 
 const Badge = styled.div`
-  margin: 158px 0 122px 0;
+  margin: 4vw 0 4vw 0;
 `
 
 const Info = styled.div`
@@ -93,11 +144,11 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 45px;
+  margin-bottom: 2vw;
   p {
-    font-size: 15px;
+    font-size: 0.7vw;
   }
   h1 {
-    font-size: 25px;
+    font-size: 1vw;
   }
 `

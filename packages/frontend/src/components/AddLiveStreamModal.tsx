@@ -121,8 +121,27 @@ export default function AddLiveStreamModal({
 
 const FormInputContainer = styled.div`
   display: flex;
+  width: 30vw;
 `
 
 const AmountFormInput = styled(FormInput)`
-  margin-bottom: 44px;
+  margin-bottom: 2vw;
+  height: 3.5vw;
+  width: 14.5vw;
+  outline: none;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  font-size: 1vw;
+`
+const TextArea = styled.textarea`
+  background-color: #232227;
+  border-radius: 15px;
+  padding: 1vw;
+  outline: none;
+  margin-bottom: 2vw;
+  font-size: 1vw;
+  ::placeholder {
+    color: ${({ theme }) => theme.colors.textInputColor};
+    font-size: 1vw;
+  }
 `

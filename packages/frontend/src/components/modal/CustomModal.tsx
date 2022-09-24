@@ -12,14 +12,16 @@ const customStyles = {
     backgroundColor: '#151419',
     borderRadius: '25px',
     padding: '2rem',
-    width: '707px',
-    height: '999px',
+    width: '35vw',
+    height: '48vw',
     color: '#ffffff',
-    fontSize: '40px',
+    fontSize: '2vw',
     fontFamily: 'Montserrat',
+    border: '2px solid #1D1B24',
   },
   overlay: {
-    backgroundColor: 'rgba(168, 180, 202, 0.75)',
+    backgroundColor: 'rgba(20, 20, 35, 0.55)',
+    backdropFilter: 'blur(15px)',
   },
 }
 

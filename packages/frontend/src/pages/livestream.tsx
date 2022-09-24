@@ -6,6 +6,7 @@ import ConnectWallet from '../components/common/ConnectWallet'
 import Image from 'next/image'
 import { PlayBackId } from '@components/ContactSidebar'
 import { useEffect, useState } from 'react'
+import Navbar from '@components/Navbar'
 
 const LiveStream: NextPage = () => {
   const [playbackId, setPlayBackId] = useState<string | null>(null)
@@ -69,12 +70,19 @@ const Wrapper = styled.div`
 `
 
 const MainContainer = styled.div`
-  width: 1506px;
-  height: 1208px;
+  width: 75vw;
+  height: 47vw;
   border: 2px solid #13131b;
+<<<<<<< HEAD
   border-radius: 30px;
   margin: 0 58px 0 88px;
   padding: 40px;
+=======
+  border-radius: 20px;
+  margin: 1vw 2vw 0 2vw;
+  padding: 1vw 2vw 2vw 2vw;
+  overflow: hidden;
+>>>>>>> master
 `
 
 const Screen = styled.div`
@@ -83,37 +91,56 @@ const Screen = styled.div`
   border-radius: 30px;
   overflow: hidden;
   align-items: center;
+<<<<<<< HEAD
 `
 
 const Frame = styled.iframe`
   width: 100%;
   height: 700px;
+=======
+  position: relative;
+  width: 100%;
+  height: 33vw;
+>>>>>>> master
 `
 
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+<<<<<<< HEAD
   margin-top: 37px;
+=======
+  margin-top: 0.7vw;
+>>>>>>> master
 `
 
 const Title = styled.div`
-  font-size: 40px;
+  font-size: 1.5vw;
   font-weight: 600;
 `
 
 const IconContainer = styled.div`
+<<<<<<< HEAD
   margin-right: 25px;
+=======
+  margin-right: 1vw;
+  margin-top: 0.5vw;
+>>>>>>> master
 `
 
 const Date = styled.div`
-  font-size: 25px;
+  font-size: 1vw;
   color: ${({ theme }) => theme.colors.textColor};
+<<<<<<< HEAD
   margin-bottom: 40px;
+=======
+  margin-bottom: 1vw;
+>>>>>>> master
 `
 
 const Desc = styled.div`
-  font-size: 25px;
+  font-size: 1vw;
   color: ${({ theme }) => theme.colors.textColor};
 `
 
