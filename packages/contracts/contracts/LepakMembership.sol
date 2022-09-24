@@ -8,17 +8,22 @@ import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+interface ITellorOracle {
+    function getCurrentEthPrice() external pure returns (uint256);
+}
 contract LepakMembership is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
     using Counters for Counters.Counter;
     bool private initialized;
     string public baseTokenURI;
+    address public oracleAddr;
     Counters.Counter private _tokenIds;
     uint256[3] public thresholds;
     uint256 public currentPriceEth = 0.0 ether;
 
-    constructor (string memory name , string memory symbol, string memory _baseTokenURI) ERC721 (name,symbol) {
+    constructor (string memory name , string memory symbol, string memory _baseTokenURI, address _orcale_addr) ERC721 (name,symbol) {
         baseTokenURI = _baseTokenURI;
+        oracleAddr = _orcale_addr;
     }
 
     function provide(address _user) external onlyOwner{
@@ -57,6 +62,10 @@ contract LepakMembership is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable 
         thresholds[2] = _newThresholds[2];
     }
 
+    /**
+    **  @dev This function sets our NFT to have a dynamic Token URI, will vary depending on the price of ETH, in this case MATIC 
+    **/
+
     function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
         bytes1 suffix;
         uint256 price = _getPriceUsd();
@@ -75,9 +84,8 @@ contract LepakMembership is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable 
     function setPriceEth(uint256 _newPrice) external onlyOwner () {
         currentPriceEth = _newPrice;
     }
-    function _getPriceUsd() internal pure returns(uint256){
-        return 0.1 ether;
-        // return amount X price of Ether - TELLOR
+    function _getPriceUsd() internal view returns(uint256){
+        return ITellorOracle(oracleAddr).getCurrentEthPrice();
     }
   
 }

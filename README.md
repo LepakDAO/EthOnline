@@ -56,13 +56,13 @@ One of the core features of Lepak is notification services using [EPNS](https://
 This is a unique feature of lepak, we use the power of ZK-Badges of [sismo](https://blog.sismo.io/what-is-sismo-part-1-zk-badges-73e7031bacda)
 for a more detailed overview on how we use sismo please visit [Lepak Sismo Docs](packages/sismo/README.md)
 
-### **Decentralized Livestreaming**
-Since Lepak DAO is a project we want to launch soon, we thought that one important feature is the ability to livestream workshops and meetups and in a decentralized way. This is going to make it easier for our community to share **workshops** & **events** all in real time. We have used [livepeer](https://livepeer.org/)'s amazing API to achive this 
+### **Decentralized Livestreaming && Chat**
+Since Lepak DAO is a project we want to launch soon, we thought that one important feature is the ability to livestream workshops and meetups and in a decentralized way. This is going to make it easier for our community to share **workshops** & **events** all in real time. We have used [livepeer](https://livepeer.org/)'s amazing API to achive this. LikeWise, we allow viewers to send message to the streamer, either is a workshop or an event, users can also send some [streams](https://www.superfluid.finance/) of money to the streamers
 
 ### **Extra Features**
   - Looking forward to partner with [Aut Protocol](https://docs.aut.id/v2/intro/what-is-aut) to extend our DAO capabilities, We have used their so-called d-aut ID in our project and it allows users who already have an ID to connect to our DAO expander.
   - Streaming of funds with [superfluid](https://www.superfluid.finance/) , to cover the costs of subscriptions to our cohorts or LTHH
-  - We use 
+  - We use [tellor](https://tellor.io/) for **Dynamic Token URI** and to allow users to purchase their memberships using different ERC20 Tokens
 
 ## The Stack
 

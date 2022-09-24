@@ -4,16 +4,22 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types'
 import { ethers } from 'hardhat'
 import { saveFrontendAddressFiles } from '../shared/saveFrontendAddressFiles'
 
-const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+const func: DeployFunction = async function(hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts } = hre
   const { deploy } = deployments
 
   const { deployer, governor } = await getNamedAccounts()
   const worldCoinAddr = '0xABB70f7F39035586Da57B3c8136035f87AC0d2Aa'
 
+  const dEthTellorOracle = await deploy('EthTellorOracle', {
+    from: deployer,
+    args: [],
+    log: true,
+  })
+
   const dLepakMembership = await deploy('LepakMembership', {
     from: deployer,
-    args: ['Lepak SBT', 'LPK', 'baseuri/'],
+    args: ['Lepak SBT', 'LPK', 'baseuri/', dEthTellorOracle.address],
     log: true,
   })
 

@@ -50,6 +50,7 @@
     "typescript": "^4.8.2"
   },
   "dependencies": {
-    "ethereum-waffle": "^3.4.4"
+    "ethereum-waffle": "^3.4.4",
+    "usingtellor": "^4.0.7"
   }
 }
