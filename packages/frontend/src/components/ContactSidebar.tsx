@@ -7,16 +7,20 @@ import ConnectWallet from './common/ConnectWallet'
 import { PrimaryButton } from './common/PrimaryButton'
 import { HackerHouse } from './HackerHouse'
 import { Meeting } from './Meeting'
+import axios from 'axios'
 
 export type HHProps = {
   name: string
   duration: string
+  pricesPerRoom: Array
 }
 
 export type MeetingProps = {
   name: string
   duration: string
   description: string
+  playbackId: string
+  startTime: string
 }
 
 export const ContactSidebar = (admin: any) => {
@@ -30,27 +34,59 @@ export const ContactSidebar = (admin: any) => {
       {
         name: 'Kuala Lumpur HH 🌇',
         duration: 'Sept 28 2022 - Dec 28 2022',
+        pricesPerRoom: [100, 200, 300],
       },
       {
         name: 'Bali HH 🏝',
         duration: 'Oct 28 2022 - Feb 28 2023',
+        pricesPerRoom: [100, 200, 300],
       },
     ])
   }, [])
 
+  // useEffect(() => {
+  //   setMeetings([
+  //     {
+  //       name: 'Board meeting',
+  //       duration: 'Sept 28 2022 - Dec 28 2022',
+  //       description: 'You have been invited to attend a meeting of Moderators.',
+  //     },
+  //     {
+  //       name: 'Community meeting',
+  //       duration: 'Sept 28 2022 - Dec 28 2022',
+  //       description: 'You have been invited to attend a meeting for Community.',
+  //     },
+  //   ])
+  // }, [])
+
   useEffect(() => {
-    setMeetings([
-      {
-        name: 'Board meeting',
-        duration: 'Sept 28 2022 - Dec 28 2022',
-        description: 'You have been invited to attend a meeting of Moderators.',
-      },
-      {
-        name: 'Community meeting',
-        duration: 'Sept 28 2022 - Dec 28 2022',
-        description: 'You have been invited to attend a meeting for Community.',
-      },
-    ])
+    ;(async () => {
+      const res = await fetch(
+        `https://livepeer.studio/api/stream?streamsonly=1&filters=[{"id": "isActive", "value": true}]`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+
+      const data = await res.json()
+      console.log('debugging data', data)
+
+      setMeetings(
+        data.map((streamOnline: any) => {
+          return {
+            name: streamOnline.name,
+            duration: `${new Date(Date.now() - streamOnline.createdAt).getMinutes()}`,
+            description: 'Lepak Dao Call',
+            playbackId: streamOnline.playbackId,
+            startTime: streamOnline.createdAt,
+          }
+        })
+      )
+    })()
   }, [])
 
   return (
@@ -72,7 +108,7 @@ export const ContactSidebar = (admin: any) => {
         </HeightWrapper>
         <HeightWrapper>
           <TitleContainer>
-            <Title>Video calls</Title>
+            <Title>Active Livestream</Title>
             {admin && (
               <IconContainer onClick={() => setIsStreamClicked(true)}>
                 <HiPlus />

@@ -2,23 +2,37 @@ import styled from 'styled-components'
 import { HiMinus } from 'react-icons/hi'
 import { useState } from 'react'
 import { MeetingProps } from './ContactSidebar'
+import Link from 'next/link'
 
 export const Meeting = ({ meeting }: { meeting: MeetingProps }) => {
   const [isRemoveClicked, setIsRemoveClicked] = useState(false)
   return (
     <Wrapper>
-      <MainContainer>
-        <Status />
-        <MeetingContainer>
-          <h1>{meeting.name}</h1>
-          <p>{meeting.duration}</p>
-          <p>{meeting.description.slice(0, 31)}</p>
-          <p>{meeting.description.slice(31)}</p>
-        </MeetingContainer>
-        <IconContainer onClick={() => setIsRemoveClicked(true)}>
-          <HiMinus />
-        </IconContainer>
-      </MainContainer>
+      <Link href="/livestream">
+        <a
+          onClick={() => {
+            localStorage.setItem('meetingID', meeting.playbackId)
+            localStorage.setItem('meetingName', meeting.name)
+            localStorage.setItem('meetingDuration', meeting.duration)
+            console.log(meeting.playbackId)
+          }}
+        >
+          <MainContainer>
+            <Status />
+            <MeetingContainer>
+              <h1>{meeting.name}</h1>
+              <p>{meeting.duration} min</p>
+              <p>{meeting.description.slice(0, 31)}</p>
+              <p>{meeting.description.slice(31)}</p>
+              <p>{meeting.playbackId}</p>
+            </MeetingContainer>
+
+            <IconContainer onClick={() => setIsRemoveClicked(true)}>
+              <HiMinus />
+            </IconContainer>
+          </MainContainer>
+        </a>
+      </Link>
     </Wrapper>
   )
 }

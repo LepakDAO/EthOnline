@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Profile from './common/Profile'
 import { BsTwitter, BsGithub } from 'react-icons/bs'
@@ -6,9 +6,16 @@ import { FaTelegramPlane } from 'react-icons/fa'
 import { GrMail } from 'react-icons/gr'
 import { Button } from './common/Button'
 import Link from 'next/link'
+import { useContracts } from '@shared/useContracts'
+import { useAccount, useSigner } from 'wagmi'
+import { ethers } from 'ethers'
+import LepakCore from '@artifacts/contracts/LepakCore.sol/LepakCore.json'
+import { LepakCore as LepakCoreType } from 'src/types/typechain'
+import axios from 'axios'
+import { Init } from '@aut-protocol/d-aut'
 
-const user = {
-  name: 'Jian Kim',
+const sampleData = {
+  name: '',
   role: 'Member',
   image: 'https://source.unsplash.com/user/c_v_r',
   socialMedia: [
@@ -20,6 +27,50 @@ const user = {
 }
 
 export const ProfileSidebar = () => {
+  const [userData, setUserData] = useState<any>(sampleData)
+  const [cid, setCid] = useState<any>()
+  const { contracts } = useContracts()
+  const { data: signer } = useSigner()
+  const { address } = useAccount()
+
+  useEffect(() => {
+    const fn = async () => {
+      if (!signer || !address) return
+      console.log(address, signer)
+      const contract = new ethers.Contract(
+        contracts.LepakCore,
+        LepakCore.abi,
+        signer
+      ) as LepakCoreType
+      try {
+        const userCID = await contract.UserInfoURI(address)
+        if (userCID != '') setCid(userCID)
+        else setCid('bafyreia2vfejs4l2kf2fvovxs4ujjqfjtrtgffhebhrxopgxvb4hkkxvta')
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    fn()
+    Init()
+  }, [address, signer])
+
+  if (cid && userData.name == '') {
+    axios.get(`https://ipfs.io/ipfs/${cid}/metadata.json`).then((res) => {
+      const data = res.data
+      setUserData({
+        name: data.name,
+        role: 'member',
+        image: `https://ipfs.io/ipfs/${data.image.slice(7)}`,
+        socialMedia: [
+          { name: 'telegram', link: `t.me/${data.telegram}`, icon: <FaTelegramPlane /> },
+          { name: 'twitter', link: `twitter.com/${data.twitter}`, icon: <BsTwitter /> },
+          { name: 'Email', link: `t.me/${data.email}`, icon: <GrMail /> },
+        ],
+        joinedDate: data.joinedDate,
+      })
+    })
+  }
+
   return (
     <Wrapper>
       <LogoContainer>
@@ -29,7 +80,7 @@ export const ProfileSidebar = () => {
           </Logo>
         </Link>
       </LogoContainer>
-      <Profile user={user} />
+      <Profile user={userData} />
       <Badge>
         <svg
           width="8vw"
@@ -52,9 +103,16 @@ export const ProfileSidebar = () => {
       </Info>
       <Info>
         <p>Part of Lepak since:</p>
-        <h1>24.09.2022</h1>
+        <h1>{userData.joinedDate ? userData.joinedDate : 'loading...'}</h1>
       </Info>
       <Button>Invite a friend</Button>
+      <div>
+        <d-aut
+          network="mumbai"
+          button-type="simple"
+          dao-expander="0xEbe5C31205a1B6aA225eB18FF4CafC33F9D71621"
+        ></d-aut>
+      </div>
     </Wrapper>
   )
 }

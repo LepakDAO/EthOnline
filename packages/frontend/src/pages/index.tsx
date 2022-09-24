@@ -36,7 +36,6 @@ const HomePage: NextPage = () => {
     })
     return <div tw="flex flex-wrap space-x-10 justify-center">{renderedSponsors}</div>
   }
-
   return (
     <>
       <Navbar />

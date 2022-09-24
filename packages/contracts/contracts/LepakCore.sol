@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { ByteHasher } from "./helpers/ByteHasher.sol";
 import { IWorldID } from "./Interfaces/IWorldId.sol";
 import { ILepakMembership } from "./Interfaces/ILepakMembership.sol";
@@ -12,11 +13,24 @@ struct shortProposal {
     string call;
 }
 
+interface ITestOracle {
+
+    /** 
+    **  @dev wrapper for oracles that we want to use in our protocol / contract still under development
+    **  @note currently this oracle will return data that is predefined
+        we are looking forward to integrate different oracles in our contracts to keep it safer
+        all prices are in usd
+    **/
+    function priceOfETH() external view returns (uint256);
+    function priceOfERC20(address _asset) external view returns (uint256); 
+}
+
 contract LepakCore is Ownable{
     using ByteHasher for bytes;
     using SafeMath for uint256;
 
-    event NewMember(address member,uint256 fee);
+    event NewMemberEth(address member,uint256 fee);
+    event newMember(address member,address token_addr, uint256 fee);
     event NewTeam(uint256 n_members);
     event ModsUpdated(address[] new_mods);
     event MembershipPriceUpdated(uint256 new_price);
@@ -24,9 +38,13 @@ contract LepakCore is Ownable{
     mapping(address => string) public UserInfoURI;
     mapping(address => bool) public usersPaid;
     mapping(address => bool) public isMod;
+    mapping(address => bool) public isWhitelistedToken;
     uint8 public modLimit = 5;
     ILepakMembership membership;
     address[] public mods;
+    address public oracleAddr;
+    address public treasury_addr;
+    address[] whitelistedToken;
     
     /**
     ** @dev worldcoin verification
@@ -63,6 +81,11 @@ contract LepakCore is Ownable{
         emit NewTeam(len);
     }
 
+    /**
+    ** @dev DUMMY FUNCTION
+    ** @note this function is for hackathon, allows to test the integration of our contract. 
+    **/
+
     function joinWithoutEth(
         string memory infoURI,
         address _caller,
@@ -75,9 +98,8 @@ contract LepakCore is Ownable{
         UserInfoURI[msg.sender] = infoURI;
 
         //uncomment this
-        // membership.provide(msg.sender);
-        
-        emit NewMember(msg.sender, membership.currentPriceEth());
+        membership.provide(msg.sender);
+        emit NewMemberEth(msg.sender, membership.currentPriceEth());
     }
 
     function joinWithEth(
@@ -87,34 +109,27 @@ contract LepakCore is Ownable{
         uint256 nullifierHash,
         uint256[8] calldata proof
     ) external payable {
-        // require(msg.value >= membership.currentPriceEth(),"Not enough funds");
+        require(msg.value >= membership.currentPriceEth(),"Not enough funds");
         _verifyPoP(_caller,root,nullifierHash,proof);
         UserInfoURI[msg.sender] = infoURI;
         membership.provide(msg.sender);
-        emit NewMember(msg.sender, msg.value);
+        emit NewMemberEth(msg.sender, msg.value);
     }
 
-    // function testWorldCoin(
-    //     address caller,
-    //     uint256 root,
-    //     uint256 nullifierHash,
-    //     uint256[8] calldata proof
-    // ) external {
+    /**
+    ** @dev function to join with any token
+    ** @note this is a dummy function, we need to modify according to number of decimals
+    **/
 
-    //     if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
-    //     worldId.verifyProof(
-    //         root,
-    //         groupId,
-    //         abi.encodePacked(caller).hashToField(),
-    //         nullifierHash,
-    //         abi.encodePacked(action_id).hashToField(),
-    //         proof
-    //     );
+    function joinWithERC20 (address _token) external {
 
-    //     // finally, we record they've done this, so they can't do it again (proof of uniqueness)
-    //     nullifierHashes[nullifierHash] = true;
+        uint256 amountToTransfer = ITestOracle(oracleAddr).priceOfETH().mul(membership.currentPriceEth());
+        amountToTransfer = amountToTransfer.div(ITestOracle(oracleAddr).priceOfERC20(_token));
 
-    // }
+        require(IERC20(_token).balanceOf(msg.sender)>amountToTransfer,"sender doesnt have enough funds");
+        IERC20(_token).transferFrom(msg.sender, treasury_addr , amountToTransfer);
+        emit newMember(msg.sender,_token,amountToTransfer);
+    }
 
     /**
     ** @dev worldcoin verification
@@ -127,8 +142,7 @@ contract LepakCore is Ownable{
         uint256[8] calldata proof
     ) internal {
 
-        //uncomment this
-        // if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
+        if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
         worldId.verifyProof(
             root,
             groupId,
@@ -161,6 +175,19 @@ contract LepakCore is Ownable{
 
         emit ModsUpdated(temp);
 
+    }
+    function whitelistToken(address _token) external onlyOwner {
+        isWhitelistedToken[_token] = true;
+        whitelistedToken.push(_token);
+    }
+    function getwhitelistedToken() external view returns (address[] memory) {
+        return whitelistedToken;
+    }
+    function setOracle(address _newOracle) external onlyOwner {
+        oracleAddr = _newOracle;
+    }
+    function setTreasury(address _newTreasury) external onlyOwner {
+        treasury_addr = _newTreasury;
     }
     function setMembershipPrice(uint256 _newPrice) external  onlyModOrOwner {
         membership.setPriceEth(_newPrice);

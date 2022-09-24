@@ -68,10 +68,30 @@ export default function JoinModal({
   const [image, SetImage] = useState<File>()
   const [goToDashBoard, setGoToDashboard] = useState<boolean>(false)
   const [worldIDProof, setWorldIDProof] = useState<any>(null)
+  const [alreadyJoined, setAlreadyJoined] = useState<boolean>(false)
   const router = useRouter()
   const { data: signer } = useSigner()
   const { contracts } = useContracts()
   const dispatch = useNotification()
+
+  useEffect(() => {
+    const fn = async () => {
+      if (!signer || !address) return
+      const contract = new ethers.Contract(
+        contracts.LepakCore,
+        LepakCore.abi,
+        signer
+      ) as LepakCoreType
+      try {
+        const isMember = await contract.isMember(address!)
+        if (isMember == true) router.push(`/dashboard/`)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    fn()
+  }, [signer])
+
   const onJoin = async () => {
     // checker to see if values are not empty
     if (
@@ -85,7 +105,7 @@ export default function JoinModal({
       toast.error('Please enter all values in the form!')
       return
     }
-    if (!worldIDProof) return
+    // if (!worldIDProof) return
 
     if (!signer || !contracts) return
 
@@ -95,11 +115,17 @@ export default function JoinModal({
     }
     setButtonMsg('Loading...')
     //TODO : UNCOMMENT
-    // let cid = await storeDataToIpfs(image,name,description,{email,twitter,telegram});
+    const today = new Date()
+    const joinedDate = today.toString().slice(0, 15)
+    const cid = await storeDataToIpfs(image, name, description, {
+      email,
+      twitter,
+      telegram,
+      joinedDate,
+    })
     toast.success('Metadata stored successfully')
     setButtonMsg('Performing Trasaction')
     //Contract interaction
-    console.log('debugging contracts', contracts.LepakCore, LepakCore.abi, signer)
     const contract = new ethers.Contract(
       contracts.LepakCore,
       LepakCore.abi,
@@ -107,9 +133,8 @@ export default function JoinModal({
     ) as LepakCoreType
     let receipt
     try {
-      console.log(address, worldIDProof, abi.decode(['uint256[8]'], worldIDProof.proof))
       const tsx = await contract.joinWithoutEth(
-        'testing',
+        cid,
         address,
         worldIDProof.merkle_root,
         worldIDProof.nullifier_hash,

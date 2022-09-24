@@ -49,7 +49,13 @@ contract LepakLifestyle is Ownable{
         _;
     }
 
-    function addStay(string memory stayURI, uint256[] calldata _pricesPerRoom) external onlyMod{
+    /** 
+    ** @dev dummy function to see functionality in the front end
+    ** @note this function should have a modifier onlymoderator
+    **/
+
+
+    function addStay(string memory stayURI, uint256[] calldata _pricesPerRoom) external {
         stayIds.increment();
         stays[stayIds.current()] = LepakStay(_pricesPerRoom,stayURI);
         emit StayAdded(stayURI);
