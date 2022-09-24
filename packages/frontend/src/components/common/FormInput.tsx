@@ -10,7 +10,7 @@ export const FormInput = styled.input`
   outline: none;
   ::placeholder,
   ::-webkit-input-placeholder {
-    color: ${({ theme }) => theme.colors.textInputColor};
+    color: #595665;
     font-size: 1vw;
     padding-left: 0vw;
   }
