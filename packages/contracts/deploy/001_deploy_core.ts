@@ -4,16 +4,22 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types'
 import { ethers } from 'hardhat'
 import { saveFrontendAddressFiles } from '../shared/saveFrontendAddressFiles'
 
-const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+const func: DeployFunction = async function(hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts } = hre
   const { deploy } = deployments
 
   const { deployer, governor } = await getNamedAccounts()
   const worldCoinAddr = '0xABB70f7F39035586Da57B3c8136035f87AC0d2Aa'
 
+  const dEthTellorOracle = await deploy('EthTellorOracle', {
+    from: deployer,
+    args: [],
+    log: true,
+  })
+
   const dLepakMembership = await deploy('LepakMembership', {
     from: deployer,
-    args: ['Lepak SBT', 'LPK', 'baseuri/'],
+    args: ['Lepak SBT', 'LPK', 'baseuri/', dEthTellorOracle.address],
     log: true,
   })
 
@@ -27,20 +33,21 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [dLepakCore.address],
     log: true,
   })
+  const dTreasury = await deploy('Treasury', {
+    from: deployer,
+    args: [dLepakCore.address],
+    log: true,
+  })
 
   const sGovernor = await ethers.provider.getSigner(governor)
   const sDeployer = await ethers.provider.getSigner(deployer)
   const cLepakMembership = await ethers.getContractAt('LepakMembership', dLepakMembership.address)
   const cLepakCore = await ethers.getContractAt('LepakCore', dLepakCore.address)
 
+  const tx0 = await cLepakCore.connect(sDeployer).setTreasury(dTreasury.address)
+  await tx0.wait()
   const tx1 = await cLepakMembership.connect(sDeployer).transferOwnership(cLepakCore.address)
   await tx1.wait()
-
-  // const tx2 = await cLepakCore.connect(sGovernor).joinWithoutEth("emerson");
-  // await tx2.wait();
-
-  const isMember = await cLepakCore.isMember(governor)
-  console.log('printing if ', governor, isMember)
 
   saveFrontendAddressFiles({
     LepakCore: cLepakCore.address,

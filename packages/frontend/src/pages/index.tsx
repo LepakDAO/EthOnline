@@ -40,7 +40,7 @@ const HomePage: NextPage = () => {
     })
     return <div tw="flex flex-wrap space-x-10 justify-center">{renderedSponsors}</div>
   }
-
+  
   const renderCohorts = () => {
     const cohorts = [
       { name: 'Kuala Lumpur', image: KualaLumpur },
@@ -74,6 +74,7 @@ const HomePage: NextPage = () => {
 
     return <div tw="w-full mt-10 flex flex-wrap justify-center">{renderedCohorts}</div>
   }
+  
   return (
     <>
       <Navbar />

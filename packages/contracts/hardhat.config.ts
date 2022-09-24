@@ -42,6 +42,11 @@ const config: HardhatUserConfig = {
       url: process.env.RPC_137,
       accounts,
     },
+    skale: {
+      chainId: 256236330,
+      url: process.env.RPC_344435,
+      accounts,
+    },
     // goerli: {
     //   chainId: 5,
     //   url: process.env.RPC_5 || 'https://rpc.ankr.com/eth_goerli',
