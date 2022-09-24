@@ -69,14 +69,14 @@ export const ContactSidebar = (admin: any) => {
       )
 
       const data = await res.json()
-      console.log(data)
+      console.log('debugging data', data)
 
-      data.map((streamOnline) => {
+      data.map((streamOnline: any) => {
         setMeetings([
           {
             name: streamOnline.name,
-            duration: 'test 23 sept',
-            description: 'description testing',
+            duration: `${new Date(Date.now() - streamOnline.createdAt).getMinutes()} min`,
+            description: 'Lepak Dao Call',
             playbackId: streamOnline.playbackId,
           },
         ])
