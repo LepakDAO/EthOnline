@@ -7,6 +7,7 @@ import { useRef, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Client } from '@livepeer/webrtmp-sdk'
 import axios from 'axios'
+import Chat from 'src/services/components/Conversation/Chat'
 
 function timeConverter(timestamp: any) {
   const a = new Date(timestamp)
@@ -139,8 +140,8 @@ const StreamDashboard: NextPage = () => {
           </ButtonWrapper>
         </MainContainer>
         <ChatBoxContainer>
-          <ConnectWallet />
-          <ChatBox />
+          {/* <ConnectWallet /> */}
+          <Chat />
         </ChatBoxContainer>
       </Wrapper>
     </Layout>

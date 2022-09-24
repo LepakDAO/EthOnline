@@ -5,6 +5,7 @@ import { ChatBox } from '../components/ChatBox'
 import ConnectWallet from '../components/common/ConnectWallet'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import Chat from 'src/services/components/Conversation/Chat'
 
 const LiveStream: NextPage = () => {
   const [playbackId, setPlayBackId] = useState<string | null>(null)
@@ -53,8 +54,8 @@ const LiveStream: NextPage = () => {
           <Desc>Lepak Dao Call</Desc>
         </MainContainer>
         <ChatBoxContainer>
-          <ConnectWallet />
-          <ChatBox />
+          {/* <ConnectWallet /> */}
+          <Chat />
         </ChatBoxContainer>
       </Wrapper>
     </Layout>
@@ -66,12 +67,13 @@ const Wrapper = styled.div`
 `
 
 const MainContainer = styled.div`
-  width: 1506px;
-  height: 1208px;
+  width: 75vw;
+  height: 47vw;
   border: 2px solid #13131b;
-  border-radius: 30px;
-  margin: 0 58px 0 88px;
-  padding: 40px;
+  border-radius: 20px;
+  margin: 1vw 2vw 0 2vw;
+  padding: 1vw 2vw 2vw 2vw;
+  overflow: hidden;
 `
 
 const Screen = styled.div`

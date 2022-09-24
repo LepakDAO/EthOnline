@@ -82,8 +82,12 @@ export default function JoinModal({
         LepakCore.abi,
         signer
       ) as LepakCoreType
-      const isMember = await contract.isMember(address!)
-      if (isMember == true) router.push(`/dashboard/`)
+      try {
+        const isMember = await contract.isMember(address!)
+        if (isMember == true) router.push(`/dashboard/`)
+      } catch (e) {
+        console.log(e)
+      }
     }
     fn()
   }, [signer])
@@ -122,7 +126,6 @@ export default function JoinModal({
     toast.success('Metadata stored successfully')
     setButtonMsg('Performing Trasaction')
     //Contract interaction
-    console.log('debugging contracts', contracts.LepakCore, LepakCore.abi, signer)
     const contract = new ethers.Contract(
       contracts.LepakCore,
       LepakCore.abi,
