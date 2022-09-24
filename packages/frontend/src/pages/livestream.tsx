@@ -1,21 +1,31 @@
-import { NextPage } from "next";
-import styled from "styled-components";
-import { Layout } from "../components/common/Layout";
-import { ChatBox } from "../components/ChatBox";
-import ConnectWallet from "../components/common/ConnectWallet";
-import Image from "next/image";
+import { NextPage } from 'next'
+import styled from 'styled-components'
+import { Layout } from '../components/common/Layout'
+import { ChatBox } from '../components/ChatBox'
+import ConnectWallet from '../components/common/ConnectWallet'
+import Image from 'next/image'
+import { PlayBackId } from '@components/ContactSidebar'
+import { useEffect, useState } from 'react'
 
 const LiveStream: NextPage = () => {
+  const [playbackId, setPlayBackId] = useState<string | null>(null)
+
+  useEffect(() => {
+    setPlayBackId(localStorage.getItem('playbackId'))
+  }, [])
+
   return (
     <Layout>
       <Wrapper>
         <MainContainer>
           <Screen>
-            <Image
-              src="https://source.unsplash.com/user/c_v_r"
-              width="1424px"
-              height="763px"
-            />
+            <iframe
+              src={`https://lvpr.tv?v=${playbackId}`}
+              frameBorder="0"
+              allowFullScreen
+              allow="autoplay; encrypted-media; picture-in-picture"
+              sandbox="allow-scripts"
+            ></iframe>
           </Screen>
           <TitleContainer>
             <Title>Community Meeting</Title>
@@ -38,12 +48,11 @@ const LiveStream: NextPage = () => {
           </TitleContainer>
           <Date>28 Sept 2022</Date>
           <Desc>
-            Long term hh in Kuala Lumpur lorem ipsum lorem ipsum lorem ipsum
-            lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum Long
-            term hh in Kuala Lumpur lorem ipsum lorem ipsum lorem ipsum lorem
-            ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum Long term hh
-            in Kuala Lumpur lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-            lorem ipsum lorem ipsum lorem ipsum lorem ipsum{" "}
+            Long term hh in Kuala Lumpur lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+            lorem ipsum lorem ipsum lorem ipsum Long term hh in Kuala Lumpur lorem ipsum lorem ipsum
+            lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum Long term hh in
+            Kuala Lumpur lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+            lorem ipsum lorem ipsum{' '}
           </Desc>
         </MainContainer>
         <ChatBoxContainer>
@@ -52,12 +61,12 @@ const LiveStream: NextPage = () => {
         </ChatBoxContainer>
       </Wrapper>
     </Layout>
-  );
-};
+  )
+}
 
 const Wrapper = styled.div`
   display: flex;
-`;
+`
 
 const MainContainer = styled.div`
   width: 1506px;
@@ -66,7 +75,7 @@ const MainContainer = styled.div`
   border-radius: 30px;
   margin: 0 58px 0 88px;
   padding: 40px;
-`;
+`
 
 const Screen = styled.div`
   display: flex;
@@ -74,39 +83,39 @@ const Screen = styled.div`
   border-radius: 30px;
   overflow: hidden;
   align-items: center;
-`;
+`
 
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 37px;
-`;
+`
 
 const Title = styled.div`
   font-size: 40px;
   font-weight: 600;
-`;
+`
 
 const IconContainer = styled.div`
   margin-right: 25px;
-`;
+`
 
 const Date = styled.div`
   font-size: 25px;
   color: ${({ theme }) => theme.colors.textColor};
   margin-bottom: 40px;
-`;
+`
 
 const Desc = styled.div`
   font-size: 25px;
   color: ${({ theme }) => theme.colors.textColor};
-`;
+`
 
 const ChatBoxContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-`;
+`
 
-export default LiveStream;
+export default LiveStream

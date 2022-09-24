@@ -18,6 +18,7 @@ export type MeetingProps = {
   name: string
   duration: string
   description: string
+  playbackId: string
 }
 
 export const ContactSidebar = (admin: any) => {
@@ -68,14 +69,15 @@ export const ContactSidebar = (admin: any) => {
       )
 
       const data = await res.json()
-      console.log(data[5])
+      console.log(data)
 
       data.map((streamOnline) => {
         setMeetings([
           {
             name: streamOnline.name,
             duration: 'test 23 sept',
-            description: 'you have been invited to attend',
+            description: 'description testing',
+            playbackId: streamOnline.playbackId,
           },
         ])
       })
