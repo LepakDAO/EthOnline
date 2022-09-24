@@ -15,9 +15,9 @@ struct shortProposal {
 
 interface ITestOracle {
 
-    /*
-        @dev wrapper for oracles that we want to use in our protocol / contract still under development
-        @note currently this oracle will return data that is predefined
+    /** 
+    **  @dev wrapper for oracles that we want to use in our protocol / contract still under development
+    **  @note currently this oracle will return data that is predefined
         we are looking forward to integrate different oracles in our contracts to keep it safer
         all prices are in usd
     **/
@@ -29,7 +29,8 @@ contract LepakCore is Ownable{
     using ByteHasher for bytes;
     using SafeMath for uint256;
 
-    event NewMember(address member,uint256 fee);
+    event NewMemberEth(address member,uint256 fee);
+    event newMember(address member,address token_addr, uint256 fee);
     event NewTeam(uint256 n_members);
     event ModsUpdated(address[] new_mods);
     event MembershipPriceUpdated(uint256 new_price);
@@ -43,6 +44,7 @@ contract LepakCore is Ownable{
     address[] public mods;
     address public oracleAddr;
     address public treasury_addr;
+    address[] whitelistedToken;
     
     /**
     ** @dev worldcoin verification
@@ -54,11 +56,10 @@ contract LepakCore is Ownable{
     mapping(uint256 => bool) internal nullifierHashes;
     error InvalidNullifier();
 
-    constructor(IWorldID _worldId, address _membershipAddr, string memory _action_id, address _treasury_addr) {
+    constructor(IWorldID _worldId, address _membershipAddr, string memory _action_id) {
         worldId = _worldId;
         membership = ILepakMembership(_membershipAddr);
         action_id = _action_id;
-        treasury_addr = _treasury_addr;
     }
 
     modifier onlyMod () {
@@ -80,6 +81,11 @@ contract LepakCore is Ownable{
         emit NewTeam(len);
     }
 
+    /**
+    ** @dev DUMMY FUNCTION
+    ** @note this function is for hackathon, allows to test the integration of our contract. 
+    **/
+
     function joinWithoutEth(
         string memory infoURI,
         address _caller,
@@ -92,9 +98,8 @@ contract LepakCore is Ownable{
         UserInfoURI[msg.sender] = infoURI;
 
         //uncomment this
-        // membership.provide(msg.sender);
-
-        emit NewMember(msg.sender, membership.currentPriceEth());
+        membership.provide(msg.sender);
+        emit NewMemberEth(msg.sender, membership.currentPriceEth());
     }
 
     function joinWithEth(
@@ -104,11 +109,11 @@ contract LepakCore is Ownable{
         uint256 nullifierHash,
         uint256[8] calldata proof
     ) external payable {
-        // require(msg.value >= membership.currentPriceEth(),"Not enough funds");
+        require(msg.value >= membership.currentPriceEth(),"Not enough funds");
         _verifyPoP(_caller,root,nullifierHash,proof);
         UserInfoURI[msg.sender] = infoURI;
         membership.provide(msg.sender);
-        emit NewMember(msg.sender, msg.value);
+        emit NewMemberEth(msg.sender, msg.value);
     }
 
     /**
@@ -123,6 +128,7 @@ contract LepakCore is Ownable{
 
         require(IERC20(_token).balanceOf(msg.sender)>amountToTransfer,"sender doesnt have enough funds");
         IERC20(_token).transferFrom(msg.sender, treasury_addr , amountToTransfer);
+        emit newMember(msg.sender,_token,amountToTransfer);
     }
 
     /**
@@ -136,8 +142,7 @@ contract LepakCore is Ownable{
         uint256[8] calldata proof
     ) internal {
 
-        //uncomment this
-        // if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
+        if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
         worldId.verifyProof(
             root,
             groupId,
@@ -173,12 +178,16 @@ contract LepakCore is Ownable{
     }
     function whitelistToken(address _token) external onlyOwner {
         isWhitelistedToken[_token] = true;
+        whitelistedToken.push(_token);
     }
-    function unWhitelistToken(address _token) external onlyOwner {
-        isWhitelistedToken[_token] = false;
+    function getwhitelistedToken() external view returns (address[] memory) {
+        return whitelistedToken;
     }
     function setOracle(address _newOracle) external onlyOwner {
         oracleAddr = _newOracle;
+    }
+    function setTreasury(address _newTreasury) external onlyOwner {
+        treasury_addr = _newTreasury;
     }
     function setMembershipPrice(uint256 _newPrice) external  onlyModOrOwner {
         membership.setPriceEth(_newPrice);

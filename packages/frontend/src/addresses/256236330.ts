@@ -1,0 +1,5 @@
+export const ContractAddresses_256236330 = {
+  LepakCore: '0x827b0DA14E13E9c06D6a9233C5c52009F00fe091',
+  LepakMembership: '0xAE6d8367Be8e3E8B1De59Af0b146CCCeE089b6E0',
+  LepakLifestyle: '0xD918109bBd085590514823558eFe7F25617D2dC8',
+}

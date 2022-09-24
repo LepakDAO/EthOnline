@@ -11,6 +11,7 @@ import { Meeting } from './Meeting'
 export type HHProps = {
   name: string
   duration: string
+  pricesPerRoom: Array
 }
 
 export type MeetingProps = {
@@ -30,10 +31,12 @@ export const ContactSidebar = (admin: any) => {
       {
         name: 'Kuala Lumpur HH 🌇',
         duration: 'Sept 28 2022 - Dec 28 2022',
+        pricesPerRoom: [100, 200, 300],
       },
       {
         name: 'Bali HH 🏝',
         duration: 'Oct 28 2022 - Feb 28 2023',
+        pricesPerRoom: [100, 200, 300],
       },
     ])
   }, [])

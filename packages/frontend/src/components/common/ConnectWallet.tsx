@@ -1,14 +1,19 @@
 import styled from 'styled-components'
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { useAccount, useConnect, useDisconnect, useNetwork } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { Button } from './Button'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { env } from '@shared/environment'
+import { supportedChains } from '@shared/wagmiClient'
+import toast from 'react-hot-toast'
 
 export default function ConnectWallet() {
   const [hasJoined, setHasJoined] = useState(false)
   const router = useRouter()
   const { address, isConnected } = useAccount()
+  const { chain } = useNetwork()
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   })
@@ -17,6 +22,8 @@ export default function ConnectWallet() {
     connect()
   }
 
+  // console.log("testing supported chain ids", chain, env.supportedChains);
+
   useEffect(() => {
     if (isConnected) {
       // router.push("/dashboard");
@@ -24,8 +31,13 @@ export default function ConnectWallet() {
         // await
         //setHasJoined(true)
       }
+      const connectionSuppported = env.supportedChains.filter((item: any) => {
+        return item == chain!.id
+      })
+      if (!connectionSuppported.length)
+        toast.error('Network not supported, please use Mumbai or Skale')
     }
-  }, [isConnected])
+  }, [isConnected, chain])
 
   //   useEffect(() => {
   //     if (hasJoined) {
@@ -44,6 +56,7 @@ export default function ConnectWallet() {
       ) : (
         <StyledButton onClick={handleConnect}>Connect Wallet</StyledButton>
       )}
+      {/* <ConnectButton/> */}
     </Wrapper>
   )
 }

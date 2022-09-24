@@ -7,45 +7,50 @@ import { Proposal } from '../components/Proposal'
 import { useState } from 'react'
 import { RevenueChart } from '../components/RevenueChart'
 import walletIcon from '../../public/icons/wallet.svg'
+import { useContracts } from '@shared/useContracts'
+import { useNetwork, useSigner } from 'wagmi'
 
 const proposals = [
   {
     name: 'Jian Kim',
     role: 'Member',
     image: 'https://source.unsplash.com/user/c_v_r',
-    desc: 'Open new long term hh in Kuala Lumpur lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
+    desc: 'Open new long term HH in Kuala Lumpur, see details in the proposal link',
     date: '23 Sept',
   },
   {
-    name: 'Jian Kim',
+    name: 'Carlos Ramos',
     role: 'Member',
     image: 'https://source.unsplash.com/user/c_v_r',
-    desc: 'Open new long term hh in Kuala Lumpur lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
+    desc: 'Open new long term HH in Dubai, see details in the proposal link',
     date: '23 Sept',
   },
   {
-    name: 'Jian Kim',
-    role: 'Member',
+    name: 'Chee Chyuan Ang',
+    role: 'Moderator',
     image: 'https://source.unsplash.com/user/c_v_r',
-    desc: 'Open new long term hh in Kuala Lumpur lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
+    desc: 'Open new long term HH in Manchester, see details in the proposal link',
     date: '23 Sept',
   },
   {
-    name: 'Jian Kim',
-    role: 'Member',
+    name: 'Zenghuy tay',
+    role: 'Moderator',
     image: 'https://source.unsplash.com/user/c_v_r',
-    desc: 'Open new long term hh in Kuala Lumpur lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum',
+    desc: 'Open new long term HH in Kuala Lumpur, see details in the proposal link',
     date: '23 Sept',
   },
 ]
 
 const Dashboard: NextPage = () => {
   const [admin, setAdmin] = useState(true)
+  const [userData, setUserData] = useState<any>(undefined)
+  const { contracts, contractsChainId } = useContracts()
+  const { data: signer } = useSigner()
 
   return (
     <CustomLayout>
       <MainContainer>
-        <UserName>Gm, Jian!</UserName>
+        <UserName>{userData ? `Gm, ${userData.name!}!` : `loading NFT data`}</UserName>
         <Row>
           <InfoTile
             image={

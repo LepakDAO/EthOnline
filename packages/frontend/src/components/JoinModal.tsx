@@ -80,9 +80,9 @@ export default function JoinModal({
       const contract = new ethers.Contract(
         contracts.LepakCore,
         LepakCore.abi,
-        signer!
+        signer
       ) as LepakCoreType
-      const isMember = await contract.isMember(address)
+      const isMember = await contract.isMember(address!)
       if (isMember == true) router.push(`/dashboard/`)
     }
     fn()
@@ -101,7 +101,7 @@ export default function JoinModal({
       toast.error('Please enter all values in the form!')
       return
     }
-    if (!worldIDProof) return
+    // if (!worldIDProof) return
 
     if (!signer || !contracts) return
 
@@ -111,7 +111,14 @@ export default function JoinModal({
     }
     setButtonMsg('Loading...')
     //TODO : UNCOMMENT
-    // let cid = await storeDataToIpfs(image,name,description,{email,twitter,telegram});
+    const today = new Date()
+    const joinedDate = today.toString().slice(0, 15)
+    const cid = await storeDataToIpfs(image, name, description, {
+      email,
+      twitter,
+      telegram,
+      joinedDate,
+    })
     toast.success('Metadata stored successfully')
     setButtonMsg('Performing Trasaction')
     //Contract interaction
@@ -123,9 +130,8 @@ export default function JoinModal({
     ) as LepakCoreType
     let receipt
     try {
-      console.log(address, worldIDProof, abi.decode(['uint256[8]'], worldIDProof.proof))
       const tsx = await contract.joinWithoutEth(
-        'testing',
+        cid,
         address,
         worldIDProof.merkle_root,
         worldIDProof.nullifier_hash,
