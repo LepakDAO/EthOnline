@@ -20,6 +20,7 @@ export type MeetingProps = {
   duration: string
   description: string
   playbackId: string
+  startTime: string
 }
 
 export const ContactSidebar = (admin: any) => {
@@ -74,16 +75,17 @@ export const ContactSidebar = (admin: any) => {
       const data = await res.json()
       console.log('debugging data', data)
 
-      data.map((streamOnline: any) => {
-        setMeetings([
-          {
+      setMeetings(
+        data.map((streamOnline: any) => {
+          return {
             name: streamOnline.name,
-            duration: `${new Date(Date.now() - streamOnline.createdAt).getMinutes()} min`,
+            duration: `${new Date(Date.now() - streamOnline.createdAt).getMinutes()}`,
             description: 'Lepak Dao Call',
             playbackId: streamOnline.playbackId,
-          },
-        ])
-      })
+            startTime: streamOnline.createdAt,
+          }
+        })
+      )
     })()
   }, [])
 

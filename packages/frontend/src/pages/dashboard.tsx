@@ -48,24 +48,6 @@ const Dashboard: NextPage = () => {
   const { contracts, contractsChainId } = useContracts()
   const { data: signer } = useSigner()
 
-  useEffect(() => {
-    ;(async () => {
-      const res = await fetch(
-        `https://livepeer.studio/api/stream?streamsonly=1&filters=[{"id": "isActive", "value": true}]`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer 8fead2ad-44a1-480b-92fd-e648aad439a0`,
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-
-      const data = await res.json()
-      console.log(data)
-    })()
-  }, [])
-
   return (
     <CustomLayout>
       <MainContainer>

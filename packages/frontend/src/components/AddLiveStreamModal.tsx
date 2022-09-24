@@ -22,7 +22,7 @@ export default function AddLiveStreamModal({
 }) {
   const { address, isConnected, connector } = useAccount()
   const [value, setValue] = useState<any>()
-  const [buttonMsg, setButtonMsg] = useState<any>('Join')
+  const [buttonMsg, setButtonMsg] = useState<any>('Create')
   const [name, setName] = useState<string>('')
   const [startTime, setStartTime] = useState<string>('')
   const [hosts, setHosts] = useState<string>('')
@@ -34,21 +34,12 @@ export default function AddLiveStreamModal({
   const onChangeValue = (e: any) => {
     if (e.target.value.toString() != '') setParsedValue(utils.parseEther(e.target.value.toString()))
   }
-  const onDonateSubmit = async () => {
-    setButtonMsg('Loading...')
-    // const Account = await connector?.account();
-    // const balance =
-    //   await // const finalBalance = uint256ToBN(balance[0]).toString();
-
-    //   // await
-    setButtonMsg('Join')
-  }
 
   const createStream = async () => {
     const res = await axios.post(
       '/api/stream',
       {
-        name: 'test',
+        name: name ? name : 'No Name',
         profiles: [
           {
             name: '720p',
@@ -80,8 +71,6 @@ export default function AddLiveStreamModal({
         },
       }
     )
-
-    console.log(res.data)
     setStreamKey(res.data.streamKey)
     localStorage.setItem('streamKey', res.data.streamKey)
     localStorage.setItem('streamId', res.data.id)
@@ -95,7 +84,9 @@ export default function AddLiveStreamModal({
           style={{ width: '564px' }}
           placeholder="Name"
           value={name}
-          onChange={onChangeValue}
+          onChange={(e) => {
+            setName(e.target.value)
+          }}
         />
         {/* <FormInputContainer>
           <AmountFormInput

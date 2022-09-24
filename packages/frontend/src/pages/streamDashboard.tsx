@@ -8,12 +8,39 @@ import Image from 'next/image'
 import { Client } from '@livepeer/webrtmp-sdk'
 import axios from 'axios'
 
+function timeConverter(timestamp: any) {
+  const a = new Date(timestamp)
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ]
+  const year = a.getFullYear()
+  const month = months[a.getMonth()]
+  const date = a.getDate()
+  const hour = a.getHours()
+  const min = a.getMinutes()
+  const sec = a.getSeconds()
+  const time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec
+  return time
+}
+
 const StreamDashboard: NextPage = () => {
-  const videoEl = useRef(null)
-  const stream = useRef(null)
-  const session = useRef(null)
+  const videoEl = useRef<any>()
+  const stream = useRef<any>()
+  const session = useRef<any>()
   const [active, setActive] = useState(false)
   const [streamName, setStreamName] = useState('')
+  const [startTime, setStartTime] = useState('Now')
   const client = new Client()
 
   useEffect(() => {
@@ -37,6 +64,7 @@ const StreamDashboard: NextPage = () => {
         .then((res) => {
           console.log(res.data.name)
           setStreamName(res.data.name)
+          setStartTime(timeConverter(res.data.createdAt))
         })
     })()
     return () => {
@@ -49,7 +77,7 @@ const StreamDashboard: NextPage = () => {
 
   const startStream = () => {
     console.log(stream.current)
-    session.current = client.cast(stream.current, localStorage.getItem('streamKey'))
+    session!.current = client.cast(stream!.current, localStorage.getItem('streamKey'))
 
     session.current.on('open', () => {
       console.log('Stream started.')
@@ -100,14 +128,8 @@ const StreamDashboard: NextPage = () => {
               </svg>
             </IconContainer>
           </TitleContainer>
-          <Date>28 Sept 2022</Date>
-          <Desc>
-            Long term hh in Kuala Lumpur lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-            lorem ipsum lorem ipsum lorem ipsum Long term hh in Kuala Lumpur lorem ipsum lorem ipsum
-            lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum Long term hh in
-            Kuala Lumpur lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-            lorem ipsum lorem ipsum{' '}
-          </Desc>
+          <DateContainer>Started on {startTime}</DateContainer>
+          <Desc>Lepak Dao Call</Desc>
           <ButtonWrapper>
             {active ? (
               <Button onClick={stopStream}>Stop</Button>
@@ -124,29 +146,18 @@ const StreamDashboard: NextPage = () => {
     </Layout>
   )
 }
-const ButtonWrapper = styled.div``
-const Button = styled.button`
-  margin-top: 20px;
-  padding: 20px 50px 20px 50px;
-  border-radius: 30px;
-  background-color: red;
-`
 const Wrapper = styled.div`
   display: flex;
 `
 
-const Video = styled.video`
-  width: 100%;
-  height: 700px;
-`
-
 const MainContainer = styled.div`
-  width: 1506px;
-  height: 1208px;
+  width: 75vw;
+  height: 49vw;
   border: 2px solid #13131b;
-  border-radius: 30px;
-  margin: 0 58px 0 88px;
-  padding: 40px;
+  border-radius: 20px;
+  margin: 1vw 2vw 0 2vw;
+  padding: 1vw 2vw 2vw 2vw;
+  overflow: hidden;
 `
 
 const Screen = styled.div`
@@ -155,32 +166,36 @@ const Screen = styled.div`
   border-radius: 30px;
   overflow: hidden;
   align-items: center;
+  position: relative;
+  width: 100%;
+  height: 33vw;
 `
 
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 37px;
+  margin-top: 0.7vw;
 `
 
 const Title = styled.div`
-  font-size: 40px;
+  font-size: 1.5vw;
   font-weight: 600;
 `
 
 const IconContainer = styled.div`
-  margin-right: 25px;
+  margin-right: 1vw;
+  margin-top: 0.5vw;
 `
 
-const Date = styled.div`
-  font-size: 25px;
+const DateContainer = styled.div`
+  font-size: 1vw;
   color: ${({ theme }) => theme.colors.textColor};
-  margin-bottom: 40px;
+  margin-bottom: 1vw;
 `
 
 const Desc = styled.div`
-  font-size: 25px;
+  font-size: 1vw;
   color: ${({ theme }) => theme.colors.textColor};
 `
 
@@ -188,6 +203,18 @@ const ChatBoxContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+`
+const ButtonWrapper = styled.div``
+const Button = styled.button`
+  margin-top: 20px;
+  padding: 20px 50px 20px 50px;
+  border-radius: 30px;
+  background-color: red;
+`
+
+const Video = styled.video`
+  width: 100%;
+  height: 100%;
 `
 
 export default StreamDashboard

@@ -11,7 +11,9 @@ export const Meeting = ({ meeting }: { meeting: MeetingProps }) => {
       <Link href="/livestream">
         <a
           onClick={() => {
-            localStorage.setItem('playbackId', meeting.playbackId)
+            localStorage.setItem('meetingID', meeting.playbackId)
+            localStorage.setItem('meetingName', meeting.name)
+            localStorage.setItem('meetingDuration', meeting.duration)
             console.log(meeting.playbackId)
           }}
         >
@@ -19,7 +21,7 @@ export const Meeting = ({ meeting }: { meeting: MeetingProps }) => {
             <Status />
             <MeetingContainer>
               <h1>{meeting.name}</h1>
-              <p>{meeting.duration}</p>
+              <p>{meeting.duration} min</p>
               <p>{meeting.description.slice(0, 31)}</p>
               <p>{meeting.description.slice(31)}</p>
               <p>{meeting.playbackId}</p>

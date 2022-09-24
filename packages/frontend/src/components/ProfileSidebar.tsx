@@ -36,18 +36,24 @@ export const ProfileSidebar = () => {
   useEffect(() => {
     const fn = async () => {
       if (!signer || !address) return
+      console.log(address, signer)
       const contract = new ethers.Contract(
         contracts.LepakCore,
         LepakCore.abi,
         signer
       ) as LepakCoreType
-      const userCID = await contract.UserInfoURI(address!)
-      if (userCID != '') setCid(userCID)
-      else setCid('bafyreia2vfejs4l2kf2fvovxs4ujjqfjtrtgffhebhrxopgxvb4hkkxvta')
+      try {
+        const userCID = await contract.UserInfoURI(address)
+        if (userCID != '') setCid(userCID)
+        else setCid('bafyreia2vfejs4l2kf2fvovxs4ujjqfjtrtgffhebhrxopgxvb4hkkxvta')
+      } catch (e) {
+        console.log(e)
+      }
     }
     fn()
     Init()
-  }, [])
+  }, [address, signer])
+
   if (cid && userData.name == '') {
     axios.get(`https://ipfs.io/ipfs/${cid}/metadata.json`).then((res) => {
       const data = res.data
