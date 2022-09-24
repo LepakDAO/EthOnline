@@ -79,7 +79,7 @@ export default function AddLiveStreamModal({
       {
         headers: {
           'content-type': 'application/json',
-          authorization: `Bearer cb508de3-73aa-4765-be38-a2ac25ac6b49`,
+          authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
         },
       }
     )
@@ -100,7 +100,7 @@ export default function AddLiveStreamModal({
           value={name}
           onChange={onChangeValue}
         />
-        <FormInputContainer>
+        {/* <FormInputContainer>
           <AmountFormInput
             style={{ marginRight: '46px' }}
             placeholder="Start Time"
@@ -115,7 +115,7 @@ export default function AddLiveStreamModal({
           value={description}
           onChange={onChangeValue}
         />
-        <video className="App-video" ref={videoEl} />
+        <video className="App-video" ref={videoEl} /> */}
         <Button onClick={createStream}>{buttonMsg}</Button>
       </CustomModal>
     </>

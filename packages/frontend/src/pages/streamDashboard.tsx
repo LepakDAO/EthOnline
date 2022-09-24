@@ -31,7 +31,7 @@ const StreamDashboard: NextPage = () => {
       axios
         .get('/api/stream/' + localStorage.getItem('streamId'), {
           headers: {
-            Authorization: `Bearer cb508de3-73aa-4765-be38-a2ac25ac6b49`,
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
           },
         })
         .then((res) => {
@@ -79,7 +79,7 @@ const StreamDashboard: NextPage = () => {
       <Wrapper>
         <MainContainer>
           <Screen>
-            <video className="App-video" ref={videoEl} />
+            <Video className="App-video" ref={videoEl} />
           </Screen>
           <TitleContainer>
             <Title>{streamName}</Title>
@@ -109,8 +109,11 @@ const StreamDashboard: NextPage = () => {
             lorem ipsum lorem ipsum{' '}
           </Desc>
           <ButtonWrapper>
-            <Button onClick={startStream}>Start</Button>
-            {active ? <Button onClick={stopStream}>Stop</Button> : <></>}
+            {active ? (
+              <Button onClick={stopStream}>Stop</Button>
+            ) : (
+              <Button onClick={startStream}>Start</Button>
+            )}
           </ButtonWrapper>
         </MainContainer>
         <ChatBoxContainer>
@@ -122,9 +125,19 @@ const StreamDashboard: NextPage = () => {
   )
 }
 const ButtonWrapper = styled.div``
-const Button = styled.button``
+const Button = styled.button`
+  margin-top: 20px;
+  padding: 20px 50px 20px 50px;
+  border-radius: 30px;
+  background-color: red;
+`
 const Wrapper = styled.div`
   display: flex;
+`
+
+const Video = styled.video`
+  width: 100%;
+  height: 700px;
 `
 
 const MainContainer = styled.div`

@@ -19,13 +19,13 @@ const LiveStream: NextPage = () => {
       <Wrapper>
         <MainContainer>
           <Screen>
-            <iframe
+            <Frame
               src={`https://lvpr.tv?v=${playbackId}`}
               frameBorder="0"
               allowFullScreen
               allow="autoplay; encrypted-media; picture-in-picture"
               sandbox="allow-scripts"
-            ></iframe>
+            ></Frame>
           </Screen>
           <TitleContainer>
             <Title>Community Meeting</Title>
@@ -83,6 +83,11 @@ const Screen = styled.div`
   border-radius: 30px;
   overflow: hidden;
   align-items: center;
+`
+
+const Frame = styled.iframe`
+  width: 100%;
+  height: 700px;
 `
 
 const TitleContainer = styled.div`

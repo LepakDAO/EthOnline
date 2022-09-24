@@ -62,7 +62,7 @@ export const ContactSidebar = (admin: any) => {
         {
           method: 'GET',
           headers: {
-            Authorization: `Bearer 8fead2ad-44a1-480b-92fd-e648aad439a0`,
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
             'Content-Type': 'application/json',
           },
         }
@@ -92,7 +92,7 @@ export const ContactSidebar = (admin: any) => {
           <TitleContainer>
             <Title>Hacker Houses</Title>
             {admin && (
-              <IconContainer onClick={() => setIsStreamClicked(true)}>
+              <IconContainer onClick={() => setIsHHClicked(true)}>
                 <HiPlus />
               </IconContainer>
             )}
@@ -103,9 +103,9 @@ export const ContactSidebar = (admin: any) => {
         </HeightWrapper>
         <HeightWrapper>
           <TitleContainer>
-            <Title>Video calls</Title>
+            <Title>Active Livestream</Title>
             {admin && (
-              <IconContainer onClick={() => setIsHHClicked(true)}>
+              <IconContainer onClick={() => setIsStreamClicked(true)}>
                 <HiPlus />
               </IconContainer>
             )}
