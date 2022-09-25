@@ -16,6 +16,9 @@ const LiveStream: NextPage = () => {
   const router = useRouter()
   const data = router.query
 
+  // TODO : YKC
+  // can get the creator thru data.creator
+
   return (
     <Layout>
       <Wrapper>

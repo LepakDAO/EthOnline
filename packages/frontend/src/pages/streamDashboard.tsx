@@ -147,6 +147,9 @@ const StreamDashboard: NextPage = () => {
     </Layout>
   )
 }
+
+// <chat isCreator={true}/>
+
 const Wrapper = styled.div`
   display: flex;
 `
