@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import { ChatTile } from './ChatTile'
 import { ChatInput } from './ChatInput'
+import { Children } from 'react'
 
-export const ChatBox = () => {
+export const ChatBox = ({ children }: any) => {
   return (
     <Wrapper>
       <ChatTileContainer>
@@ -13,16 +14,13 @@ export const ChatBox = () => {
             textAlign: 'center',
             fontWeight: 'bold',
             fontSize: '1.5vw',
+            width: '100%',
           }}
         >
           Chat
         </h2>
-        <ChatTile direction={{ send: true }} />
-        <ChatTile direction={{ send: false }} />
+        {children}
       </ChatTileContainer>
-      <ChatInputContainer>
-        <ChatInput />
-      </ChatInputContainer>
     </Wrapper>
   )
 }
@@ -33,11 +31,13 @@ const Wrapper = styled.div`
   border-radius: 20px;
   border: 2px solid ${({ theme }) => theme.colors.strokeColor};
   background-color: ${({ theme }) => theme.colors.bgColor};
-  margin-top: 1vw;
+  margin-top: 0.5vw;
 `
 
 const ChatTileContainer = styled.div`
   height: 42vw;
+  display: flex;
+  flex-wrap: wrap;
 `
 
 const ChatInputContainer = styled.div`
