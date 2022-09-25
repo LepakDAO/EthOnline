@@ -39,7 +39,7 @@ export default function AddLiveStreamModal({
     const res = await axios.post(
       '/api/stream',
       {
-        name: name ? name : 'No Name',
+        name: name ? `${name}&&${address}` : 'NoName&&NoAddress',
         profiles: [
           {
             name: '720p',

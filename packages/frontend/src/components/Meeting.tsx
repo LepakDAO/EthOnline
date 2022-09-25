@@ -13,8 +13,9 @@ export const Meeting = ({ meeting }: { meeting: MeetingProps }) => {
           pathname: '/livestream',
           query: {
             id: meeting.playbackId,
-            name: meeting.name,
+            name: meeting.name.split('&&')[0],
             startTime: meeting.startTime,
+            creator: meeting.name.split('&&')[1],
           },
         }}
       >
@@ -28,7 +29,7 @@ export const Meeting = ({ meeting }: { meeting: MeetingProps }) => {
           <MainContainer>
             <Status />
             <MeetingContainer>
-              <h1>{meeting.name}</h1>
+              <h1>{meeting.name.split('&&')[0]}</h1>
               <p>{meeting.duration} min</p>
               <p>{meeting.description.slice(0, 31)}</p>
               <p>{meeting.description.slice(31)}</p>
