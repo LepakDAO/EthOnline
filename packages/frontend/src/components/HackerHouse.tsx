@@ -28,7 +28,7 @@ export const HackerHouse = ({ hackerHouse }: { hackerHouse: HHProps }) => {
   }
   return (
     <Wrapper>
-      <MainContainer>
+      <MainContainer onClick={onApply}>
         <SVGContainer>
           <svg
             width="1vw"
@@ -45,7 +45,7 @@ export const HackerHouse = ({ hackerHouse }: { hackerHouse: HHProps }) => {
             />
           </svg>
         </SVGContainer>
-        <HHContainer onClick={onApply}>
+        <HHContainer>
           <h1>{name}</h1>
           <p>{duration}</p>
         </HHContainer>
@@ -60,6 +60,26 @@ const Wrapper = styled.div`
 
 const MainContainer = styled.div`
   display: flex;
+  cursor: pointer;
+  padding-top: 0.1vw;
+  padding-bottom: 0.3vw;
+  border-radius: 5px;
+  {Maincontainer}:hover {
+    {Maincontainer}:after {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      text-align: center;
+      border-radius: 5px;
+      width:16vw;
+      height: 2.5vw;
+      background-color: rgba(63, 63, 167, 0.2);
+      backdrop-filter: blur(2px);
+      content: "Apply";
+    }
+  }
 `
 
 const SVGContainer = styled.div`
