@@ -86,7 +86,7 @@ export default function AddLiveStreamModal({
     <>
       <CustomModal title="Add new livestream" isOpen={isOpen} onClose={onClose}>
         <AmountFormInput
-          style={{ width: '564px' }}
+          style={{ width: '30vw' }}
           placeholder="Name"
           value={name}
           onChange={(e) => {

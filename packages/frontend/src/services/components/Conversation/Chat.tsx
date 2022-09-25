@@ -5,6 +5,7 @@ import useXmtp from 'src/services/hooks/useXmtp'
 import { useSigner } from 'wagmi'
 import Conversation from './Conversation'
 import { VStack } from '@chakra-ui/react'
+import { ChatBox } from '@components/ChatBox'
 
 const ConversationLayout: React.FC = () => {
   const [peerAddressOrName, setPeerAddressOrName] = useState<string>(
@@ -46,7 +47,11 @@ const ConversationLayout: React.FC = () => {
           <Conversation peerAddressOrName={peerAddressOrName} />
         </VStack>
       ) : (
-        <>Please sign the message to use XMTP Chatting Service.</>
+        <ChatBox>
+          <div style={{ textAlign: 'center', width: '100%' }}>
+            Please sign the message to use XMTP Chatting Service.
+          </div>
+        </ChatBox>
       )}
     </>
   )
