@@ -29,6 +29,8 @@ Some decisions that are not allowed :
   - Naming new moderators
   - blacklisting moderators
   - Giving free memberships to users
+  
+![alt text](http://drive.google.com/uc?export=view&id=1KJpwCzDviXlZtTCFpTbsmalpL_gWiA9w)
 
 ### **Long Term Hacker Houses🏠**
 
