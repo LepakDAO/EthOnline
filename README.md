@@ -50,6 +50,8 @@ We have integrated [Worldcoin](https://worldcoin.org/)'s PoH by using their widg
   - We will avoid users with different wallets joining the DAO several times and holding more voting power than the rest
   - We give security and safety to our members, since we are launching IRL cohorts, people should feel safe that its actual humans applying for the co-living
 
+![alt text](http://drive.google.com/uc?export=view&id=1G_KN2UnYVfysFzI9NG8-IN4gOTUf6Oco)
+
 ### **Notification Services🛎**
 One of the core features of Lepak is notification service made possible by [EPNS](https://epns.io). We allow our users to stay updated on what is happening within our DAO :
   - New users Joining
