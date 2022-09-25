@@ -309,7 +309,7 @@ const TextArea = styled.textarea`
   margin-bottom: 2vw;
   font-size: 1vw;
   ::placeholder {
-    color: ${({ theme }) => theme.colors.textInputColor};
+    color: #595665;
     font-size: 1vw;
   }
 `
