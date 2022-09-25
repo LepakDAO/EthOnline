@@ -111,7 +111,7 @@ const StreamDashboard: NextPage = () => {
             <Video className="App-video" ref={videoEl} />
           </Screen>
           <TitleContainer>
-            <Title>{streamName}</Title>
+            <Title>{streamName.split('&&')[0]}</Title>
             <IconContainer>
               <svg
                 width="54"

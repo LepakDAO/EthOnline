@@ -12,6 +12,7 @@ import axios from 'axios'
 import { Client } from '@livepeer/webrtmp-sdk'
 import { useNavigate } from 'react-router-dom'
 import { Router, useRouter } from 'next/router'
+import toast from 'react-hot-toast'
 
 export default function AddLiveStreamModal({
   isOpen,
@@ -36,6 +37,10 @@ export default function AddLiveStreamModal({
   }
 
   const createStream = async () => {
+    if (!isConnected) {
+      toast.error('You are not connected, Please connect your wallet')
+      return
+    }
     const res = await axios.post(
       '/api/stream',
       {
