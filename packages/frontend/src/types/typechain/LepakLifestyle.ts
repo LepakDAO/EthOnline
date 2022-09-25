@@ -17,12 +17,23 @@ import type { FunctionFragment, Result, EventFragment } from '@ethersproject/abi
 import type { Listener, Provider } from '@ethersproject/providers'
 import type { TypedEventFilter, TypedEvent, TypedListener, OnEvent, PromiseOrValue } from './common'
 
+export type LepakStayStruct = {
+  pricesPerRoom: PromiseOrValue<BigNumberish>[]
+  stayURI: PromiseOrValue<string>
+}
+
+export type LepakStayStructOutput = [BigNumber[], string] & {
+  pricesPerRoom: BigNumber[]
+  stayURI: string
+}
+
 export interface LepakLifestyleInterface extends utils.Interface {
   functions: {
     'addStay(string,uint256[])': FunctionFragment
     'applyForStay(uint256)': FunctionFragment
     'approveForStay(uint256,address[])': FunctionFragment
     'coreContract()': FunctionFragment
+    'getStays()': FunctionFragment
     'isApprovedForStay(uint256,address)': FunctionFragment
     'owner()': FunctionFragment
     'renounceOwnership()': FunctionFragment
@@ -37,6 +48,7 @@ export interface LepakLifestyleInterface extends utils.Interface {
       | 'applyForStay'
       | 'approveForStay'
       | 'coreContract'
+      | 'getStays'
       | 'isApprovedForStay'
       | 'owner'
       | 'renounceOwnership'
@@ -58,6 +70,7 @@ export interface LepakLifestyleInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>[]]
   ): string
   encodeFunctionData(functionFragment: 'coreContract', values?: undefined): string
+  encodeFunctionData(functionFragment: 'getStays', values?: undefined): string
   encodeFunctionData(
     functionFragment: 'isApprovedForStay',
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
@@ -78,6 +91,7 @@ export interface LepakLifestyleInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: 'applyForStay', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'approveForStay', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'coreContract', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'getStays', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'isApprovedForStay', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'renounceOwnership', data: BytesLike): Result
@@ -176,6 +190,8 @@ export interface LepakLifestyle extends BaseContract {
 
     coreContract(overrides?: CallOverrides): Promise<[string]>
 
+    getStays(overrides?: CallOverrides): Promise<[LepakStayStructOutput[]]>
+
     isApprovedForStay(
       _stayId: PromiseOrValue<BigNumberish>,
       _member: PromiseOrValue<string>,
@@ -224,6 +240,8 @@ export interface LepakLifestyle extends BaseContract {
 
   coreContract(overrides?: CallOverrides): Promise<string>
 
+  getStays(overrides?: CallOverrides): Promise<LepakStayStructOutput[]>
+
   isApprovedForStay(
     _stayId: PromiseOrValue<BigNumberish>,
     _member: PromiseOrValue<string>,
@@ -265,6 +283,8 @@ export interface LepakLifestyle extends BaseContract {
     ): Promise<void>
 
     coreContract(overrides?: CallOverrides): Promise<string>
+
+    getStays(overrides?: CallOverrides): Promise<LepakStayStructOutput[]>
 
     isApprovedForStay(
       _stayId: PromiseOrValue<BigNumberish>,
@@ -327,6 +347,8 @@ export interface LepakLifestyle extends BaseContract {
 
     coreContract(overrides?: CallOverrides): Promise<BigNumber>
 
+    getStays(overrides?: CallOverrides): Promise<BigNumber>
+
     isApprovedForStay(
       _stayId: PromiseOrValue<BigNumberish>,
       _member: PromiseOrValue<string>,
@@ -370,6 +392,8 @@ export interface LepakLifestyle extends BaseContract {
     ): Promise<PopulatedTransaction>
 
     coreContract(overrides?: CallOverrides): Promise<PopulatedTransaction>
+
+    getStays(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     isApprovedForStay(
       _stayId: PromiseOrValue<BigNumberish>,

@@ -1,10 +1,31 @@
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 type HHProps = {
   name: string
   duration: string
+  onApply: any
 }
 export const HackerHouse = ({ hackerHouse }: { hackerHouse: HHProps }) => {
+  const [name, setName] = useState<any>()
+  const [duration, setDuration] = useState<any>()
+
+  useEffect(() => {
+    axios.get(`https://ipfs.io/ipfs/${hackerHouse.stayURI}/metadata.json`).then((res) => {
+      const data = res.data
+      setName(data.name)
+      setDuration(data.duration)
+    })
+  })
+  const onApply = async () => {
+    try {
+      await hackerHouse.onApply()
+    } catch (e) {
+      toast.error('some error ocurred, refresh and try again')
+    }
+  }
   return (
     <Wrapper>
       <MainContainer>
@@ -24,9 +45,9 @@ export const HackerHouse = ({ hackerHouse }: { hackerHouse: HHProps }) => {
             />
           </svg>
         </SVGContainer>
-        <HHContainer>
-          <h1>{hackerHouse.name}</h1>
-          <p>{hackerHouse.duration}</p>
+        <HHContainer onClick={onApply}>
+          <h1>{name}</h1>
+          <p>{duration}</p>
         </HHContainer>
       </MainContainer>
     </Wrapper>

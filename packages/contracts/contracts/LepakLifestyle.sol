@@ -67,7 +67,7 @@ contract LepakLifestyle is Ownable{
         and the they need to pass interview with moderators 
  */
 
-    function applyForStay(uint256 _stayId) external onlyMember{
+    function applyForStay(uint256 _stayId) external{
         //can only apply to already added stays
         require(_stayId != 0 && _stayId <= stayIds.current(), "this stay id doesnt exist");
         stayApplications[_stayId].push(msg.sender);
@@ -85,5 +85,14 @@ contract LepakLifestyle is Ownable{
 
     function isApprovedForStay(uint256 _stayId, address _member) external view returns (bool){
         return stayApprovals[_stayId][_member];
+    }
+
+    function getStays() external view returns(LepakStay[] memory) {
+        uint256 len = stayIds.current();
+        LepakStay[] memory _stays = new LepakStay[](len);
+        for(uint256 i=1;i<=len;i++){
+            _stays[i-1] = stays[i]; 
+        }
+        return _stays;
     }
 }

@@ -106,13 +106,13 @@ export const ProfileSidebar = () => {
         <h1>{userData.joinedDate ? userData.joinedDate : 'loading...'}</h1>
       </Info>
       <Button>Invite a friend</Button>
-      <div>
+      <AutContainer>
         <d-aut
           network="mumbai"
           button-type="simple"
           dao-expander="0xEbe5C31205a1B6aA225eB18FF4CafC33F9D71621"
         ></d-aut>
-      </div>
+      </AutContainer>
     </Wrapper>
   )
 }
@@ -128,7 +128,9 @@ const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.bgColor};
   border: 2px solid ${({ theme }) => theme.colors.strokeColor};
 `
-
+const AutContainer = styled.div`
+  margin: 0.5vw 0 0 0;
+`
 const LogoContainer = styled.div`
   &:hover {
     cursor: pointer;

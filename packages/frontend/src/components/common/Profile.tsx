@@ -32,7 +32,8 @@ export default function Profile({ user }: { user: UserProps }) {
           <SocialMediaItem
             key={item.name}
             onClick={() => {
-              window.open(item.link)
+              console.log('testing link', item.link)
+              window.open(`https://${item.link}`)
             }}
           >
             {item.icon}

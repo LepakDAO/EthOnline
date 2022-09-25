@@ -8,12 +8,12 @@ import { PrimaryButton } from './common/PrimaryButton'
 import { HackerHouse } from './HackerHouse'
 import { Meeting } from './Meeting'
 import axios from 'axios'
-
-export type HHProps = {
-  name: string
-  duration: string
-  pricesPerRoom: Array
-}
+import { useContracts } from '@shared/useContracts'
+import { LepakLifestyle as LepakLifestyleType } from 'src/types/typechain'
+import LepakLifestyle from '@artifacts/contracts/LepakLifestyle.sol/LepakLifestyle.json'
+import { useAccount, useSigner, useProvider } from 'wagmi'
+import { ethers } from 'ethers'
+import toast from 'react-hot-toast'
 
 export type MeetingProps = {
   name: string
@@ -26,66 +26,75 @@ export type MeetingProps = {
 export const ContactSidebar = (admin: any) => {
   const [isStreamClicked, setIsStreamClicked] = useState(false)
   const [isHHClicked, setIsHHClicked] = useState(false)
-  const [hackerHouses, setHackerHouses] = useState<HHProps[]>([])
+  const [hackerHouses, setHackerHouses] = useState<any[]>([])
   const [meetings, setMeetings] = useState<MeetingProps[]>([])
+  const [staysRead, setStaysRead] = useState<any>([])
+  const { contracts } = useContracts()
+  const { data: signer } = useSigner()
+  const { address } = useAccount()
 
   useEffect(() => {
-    setHackerHouses([
-      {
-        name: 'Kuala Lumpur HH 🌇',
-        duration: 'Sept 28 2022 - Dec 28 2022',
-        pricesPerRoom: [100, 200, 300],
-      },
-      {
-        name: 'Bali HH 🏝',
-        duration: 'Oct 28 2022 - Feb 28 2023',
-        pricesPerRoom: [100, 200, 300],
-      },
-    ])
-  }, [])
-
-  // useEffect(() => {
-  //   setMeetings([
-  //     {
-  //       name: 'Board meeting',
-  //       duration: 'Sept 28 2022 - Dec 28 2022',
-  //       description: 'You have been invited to attend a meeting of Moderators.',
-  //     },
-  //     {
-  //       name: 'Community meeting',
-  //       duration: 'Sept 28 2022 - Dec 28 2022',
-  //       description: 'You have been invited to attend a meeting for Community.',
-  //     },
-  //   ])
-  // }, [])
+    console.log(signer, address)
+    const fn = async () => {
+      if (!signer || !address) return
+      console.log(address, signer)
+      const contract = new ethers.Contract(
+        contracts.LepakLifestyle,
+        LepakLifestyle.abi,
+        signer
+      ) as LepakLifestyleType
+      try {
+        const listOfStays = await contract.getStays()
+        const mlistOfStays = listOfStays.map((item, id) => {
+          return {
+            ...item,
+            onApply: async () => {
+              const tsx = await contract.applyForStay(id + 1)
+              const receipt = await tsx.wait()
+              toast.success('You have succesfully applied for the stay')
+            },
+          }
+        })
+        console.log('hola', mlistOfStays)
+        setHackerHouses(mlistOfStays)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    fn()
+  }, [signer, address])
 
   useEffect(() => {
     ;(async () => {
-      const res = await fetch(
-        `https://livepeer.studio/api/stream?streamsonly=1&filters=[{"id": "isActive", "value": true}]`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-
-      const data = await res.json()
-      console.log('debugging data', data)
-
-      setMeetings(
-        data.map((streamOnline: any) => {
-          return {
-            name: streamOnline.name,
-            duration: `${new Date(Date.now() - streamOnline.createdAt).getMinutes()}`,
-            description: 'Lepak Dao Call',
-            playbackId: streamOnline.playbackId,
-            startTime: streamOnline.createdAt,
+      try {
+        const res = await fetch(
+          `https://livepeer.studio/api/stream?streamsonly=1&filters=[{"id": "isActive", "value": true}]`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+              'Content-Type': 'application/json',
+            },
           }
-        })
-      )
+        )
+
+        const data = await res.json()
+        console.log('debugging data', data)
+
+        setMeetings(
+          data.map((streamOnline: any) => {
+            return {
+              name: streamOnline.name,
+              duration: `${new Date(Date.now() - streamOnline.createdAt).getMinutes()}`,
+              description: 'Lepak Dao Call',
+              playbackId: streamOnline.playbackId,
+              startTime: streamOnline.createdAt,
+            }
+          })
+        )
+      } catch (e) {
+        console.log(e)
+      }
     })()
   }, [])
 
