@@ -90,7 +90,7 @@ export default function JoinModal({
       }
     }
     fn()
-  }, [signer, address])
+  }, [signer, address, isConnected])
 
   const onJoin = async () => {
     // checker to see if values are not empty
@@ -135,10 +135,10 @@ export default function JoinModal({
     try {
       const tsx = await contract.joinWithoutEth(
         cid,
-        address,
-        worldIDProof.merkle_root,
-        worldIDProof.nullifier_hash,
-        abi.decode(['uint256[8]'], worldIDProof.proof)[0],
+        // address,
+        // worldIDProof.merkle_root,
+        // worldIDProof.nullifier_hash,
+        // abi.decode(['uint256[8]'], worldIDProof.proof)[0],
         { gasLimit: 1000000 }
       )
       receipt = await tsx.wait()

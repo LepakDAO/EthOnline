@@ -34,7 +34,7 @@ export interface LepakCoreInterface extends utils.Interface {
     'isWhitelistedToken(address)': FunctionFragment
     'joinWithERC20(address)': FunctionFragment
     'joinWithEth(string,address,uint256,uint256,uint256[8])': FunctionFragment
-    'joinWithoutEth(string,address,uint256,uint256,uint256[8])': FunctionFragment
+    'joinWithoutEth(string)': FunctionFragment
     'modLimit()': FunctionFragment
     'mods(uint256)': FunctionFragment
     'oracleAddr()': FunctionFragment
@@ -98,16 +98,7 @@ export interface LepakCoreInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>[]
     ]
   ): string
-  encodeFunctionData(
-    functionFragment: 'joinWithoutEth',
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>[]
-    ]
-  ): string
+  encodeFunctionData(functionFragment: 'joinWithoutEth', values: [PromiseOrValue<string>]): string
   encodeFunctionData(functionFragment: 'modLimit', values?: undefined): string
   encodeFunctionData(functionFragment: 'mods', values: [PromiseOrValue<BigNumberish>]): string
   encodeFunctionData(functionFragment: 'oracleAddr', values?: undefined): string
@@ -272,10 +263,6 @@ export interface LepakCore extends BaseContract {
 
     joinWithoutEth(
       infoURI: PromiseOrValue<string>,
-      _caller: PromiseOrValue<string>,
-      root: PromiseOrValue<BigNumberish>,
-      nullifierHash: PromiseOrValue<BigNumberish>,
-      proof: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>
 
@@ -359,10 +346,6 @@ export interface LepakCore extends BaseContract {
 
   joinWithoutEth(
     infoURI: PromiseOrValue<string>,
-    _caller: PromiseOrValue<string>,
-    root: PromiseOrValue<BigNumberish>,
-    nullifierHash: PromiseOrValue<BigNumberish>,
-    proof: PromiseOrValue<BigNumberish>[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>
 
@@ -441,14 +424,7 @@ export interface LepakCore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>
 
-    joinWithoutEth(
-      infoURI: PromiseOrValue<string>,
-      _caller: PromiseOrValue<string>,
-      root: PromiseOrValue<BigNumberish>,
-      nullifierHash: PromiseOrValue<BigNumberish>,
-      proof: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<void>
+    joinWithoutEth(infoURI: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>
 
     modLimit(overrides?: CallOverrides): Promise<number>
 
@@ -541,10 +517,6 @@ export interface LepakCore extends BaseContract {
 
     joinWithoutEth(
       infoURI: PromiseOrValue<string>,
-      _caller: PromiseOrValue<string>,
-      root: PromiseOrValue<BigNumberish>,
-      nullifierHash: PromiseOrValue<BigNumberish>,
-      proof: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>
 
@@ -636,10 +608,6 @@ export interface LepakCore extends BaseContract {
 
     joinWithoutEth(
       infoURI: PromiseOrValue<string>,
-      _caller: PromiseOrValue<string>,
-      root: PromiseOrValue<BigNumberish>,
-      nullifierHash: PromiseOrValue<BigNumberish>,
-      proof: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>
 

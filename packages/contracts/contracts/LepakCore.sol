@@ -84,20 +84,19 @@ contract LepakCore is Ownable{
     /**
     ** @dev DUMMY FUNCTION
     ** @note this function is for hackathon, allows to test the integration of our contract. 
+        uncomment first line of the function will work along with payForTeam function.
     **/
 
     function joinWithoutEth(
-        string memory infoURI,
-        address _caller,
-        uint256 root,
-        uint256 nullifierHash,
-        uint256[8] calldata proof
+        string memory infoURI
+        // address _caller,
+        // uint256 root,
+        // uint256 nullifierHash,
+        // uint256[8] calldata proof
     ) external {
         // require(usersPaid[msg.sender],"user hasnt paid yet");
-        _verifyPoP(_caller,root,nullifierHash,proof);
+        // _verifyPoP(_caller,root,nullifierHash,proof);
         UserInfoURI[msg.sender] = infoURI;
-
-        //uncomment this
         membership.provide(msg.sender);
         emit NewMemberEth(msg.sender, membership.currentPriceEth());
     }

@@ -1,5 +1,5 @@
 export const ContractAddresses_80001 = {
-  LepakCore: '0x517f566B05bFE9bCf0eC13bEe1d9A1F0e19E0915',
-  LepakMembership: '0x73a13c821076113Cd37ad2903da73c8d9aaA85B8',
-  LepakLifestyle: '0x75bf95805582b8aF3d0142BCEC3E13Bff99360bD',
+  LepakCore: '0x80aE7A09404634bf99f9bA5d37100DEBB36469dc',
+  LepakMembership: '0x4475Df3686ae9A475e2B54BE9732A613e7Fff616',
+  LepakLifestyle: '0x38C48d97174a1817CbEc50D42204Dc5A75Dd8068',
 }

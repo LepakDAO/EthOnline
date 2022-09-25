@@ -61,13 +61,13 @@ const config: HardhatUserConfig = {
       default: 1,
     },
   },
-  // etherscan: {
-  //   apiKey: {
-  //     polygonMumbai: process.env.POLYGONSCAN_API_KEY!,
-  //     bscTestnet: process.env.BSCSCAN_API_KEY!,
-  //     polygon : process.env.POLYGONSCAN_API_KEY!,
-  //   },
-  // },
+  etherscan: {
+    apiKey: {
+      polygonMumbai: process.env.POLYGONSCAN_API_KEY!,
+      bscTestnet: process.env.BSCSCAN_API_KEY!,
+      polygon: process.env.POLYGONSCAN_API_KEY!,
+    },
+  },
 }
 
 export default config
