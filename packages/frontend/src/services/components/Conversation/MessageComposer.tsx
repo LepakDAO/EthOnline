@@ -30,7 +30,7 @@ const MessageComposer = ({ onSend }: MessageComposerProps): JSX.Element => {
     [onSend, message]
   )
   return (
-    <form autoComplete="off" onSubmit={onSubmit}>
+    <form autoComplete="off" onSubmit={onSubmit} style={{ display: 'flex' }}>
       <Input
         type="text"
         placeholder="Type something..."
@@ -38,9 +38,30 @@ const MessageComposer = ({ onSend }: MessageComposerProps): JSX.Element => {
         value={message}
         onChange={onMessageChange}
         required
-        style={{ color: 'black' }}
+        style={{
+          color: 'white',
+          width: '100%',
+          borderRadius: '5px',
+          backgroundColor: '#2E2D30',
+          paddingTop: '0.5vw',
+          paddingBottom: '0.5vw',
+          paddingLeft: '1vw',
+        }}
       />
-      <IconButton aria-label="Send" icon={<BiMailSend />} type="submit" />
+      <IconButton
+        style={{ marginLeft: '1vw' }}
+        aria-label="Send"
+        icon={
+          <BiMailSend
+            style={{
+              width: '2vw',
+              height: '2vw',
+              color: '#6868B4',
+            }}
+          />
+        }
+        type="submit"
+      />
     </form>
   )
 }

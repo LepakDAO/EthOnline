@@ -42,10 +42,17 @@ const ConversationLayout: React.FC = () => {
   return (
     <>
       {walletAddress && client ? (
-        <VStack style={{ display: 'block' }}>
-          <RecipientControl peerAddressOrName={peerAddressOrName} onSubmit={setPeerAddressOrName} />
-          <Conversation peerAddressOrName={peerAddressOrName} />
-        </VStack>
+        <ChatBox>
+          <VStack style={{ display: 'block' }}>
+            <RecipientControl
+              peerAddressOrName={peerAddressOrName}
+              onSubmit={setPeerAddressOrName}
+            />
+          </VStack>
+          <div style={{ height: '80%', display: 'flex', flexWrap: 'wrap', alignItems: 'end' }}>
+            <Conversation peerAddressOrName={peerAddressOrName} />
+          </div>
+        </ChatBox>
       ) : (
         <ChatBox>
           <div style={{ textAlign: 'center', width: '100%' }}>

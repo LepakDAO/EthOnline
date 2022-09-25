@@ -89,7 +89,7 @@ const Screen = styled.div`
 `
 const Frame = styled.iframe`
   width: 100%;
-  height: 35vw;
+  height: 33vw;
 `
 const TitleContainer = styled.div`
   display: flex;
@@ -97,7 +97,6 @@ const TitleContainer = styled.div`
   align-items: center;
   margin-top: 0.7vw;
 `
-
 const Title = styled.div`
   font-size: 1.5vw;
   font-weight: 600;
