@@ -6,17 +6,15 @@ import ConnectWallet from '../components/common/ConnectWallet'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import Chat from 'src/services/components/Conversation/Chat'
+import { useRouter } from 'next/router'
+import { timeConverter } from './api/utils'
 
 const LiveStream: NextPage = () => {
   const [playbackId, setPlayBackId] = useState<string | null>(null)
   const [name, setName] = useState<string | null>('')
   const [duration, setDuration] = useState<string | null>('0')
-
-  useEffect(() => {
-    setPlayBackId(localStorage.getItem('playbackId'))
-    setDuration(localStorage.getItem('meetingDuration'))
-    setName(localStorage.getItem('meetingName'))
-  }, [])
+  const router = useRouter()
+  const data = router.query
 
   return (
     <Layout>
@@ -24,7 +22,7 @@ const LiveStream: NextPage = () => {
         <MainContainer>
           <Screen>
             <Frame
-              src={`https://lvpr.tv?v=${playbackId}`}
+              src={`https://lvpr.tv?v=${data.id}`}
               frameBorder="0"
               allowFullScreen
               allow="autoplay; encrypted-media; picture-in-picture"
@@ -32,7 +30,7 @@ const LiveStream: NextPage = () => {
             ></Frame>
           </Screen>
           <TitleContainer>
-            <Title>{name}</Title>
+            <Title>{data.name ? data.name : 'No Stream'}</Title>
             <IconContainer>
               <svg
                 width="54"
@@ -50,7 +48,7 @@ const LiveStream: NextPage = () => {
               </svg>
             </IconContainer>
           </TitleContainer>
-          <Date>Since {duration}min ago</Date>
+          <Date>Started {data.startTime && timeConverter(parseInt(data.startTime))}</Date>
           <Desc>Lepak Dao Call</Desc>
         </MainContainer>
         <ChatBoxContainer>
@@ -61,14 +59,12 @@ const LiveStream: NextPage = () => {
     </Layout>
   )
 }
-
 const Wrapper = styled.div`
   display: flex;
 `
-
 const MainContainer = styled.div`
   width: 75vw;
-  height: 47vw;
+  height: 49vw;
   border: 2px solid #13131b;
   border-radius: 20px;
   margin: 1vw 2vw 0 2vw;
@@ -86,7 +82,7 @@ const Screen = styled.div`
 
 const Frame = styled.iframe`
   width: 100%;
-  height: 700px;
+  height: 600px;
 `
 
 const TitleContainer = styled.div`

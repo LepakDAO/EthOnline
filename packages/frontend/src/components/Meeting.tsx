@@ -8,13 +8,21 @@ export const Meeting = ({ meeting }: { meeting: MeetingProps }) => {
   const [isRemoveClicked, setIsRemoveClicked] = useState(false)
   return (
     <Wrapper>
-      <Link href="/livestream">
+      <Link
+        href={{
+          pathname: '/livestream',
+          query: {
+            id: meeting.playbackId,
+            name: meeting.name,
+            startTime: meeting.startTime,
+          },
+        }}
+      >
         <a
           onClick={() => {
             localStorage.setItem('meetingID', meeting.playbackId)
             localStorage.setItem('meetingName', meeting.name)
             localStorage.setItem('meetingDuration', meeting.duration)
-            console.log(meeting.playbackId)
           }}
         >
           <MainContainer>
