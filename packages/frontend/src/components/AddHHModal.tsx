@@ -36,7 +36,7 @@ async function storeDataToIpfs(
 export default function AddHHModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const { address, isConnected, connector } = useAccount()
   const [value, setValue] = useState<any>()
-  const [buttonMsg, setButtonMsg] = useState<any>('Add Stay')
+  const [buttonMsg, setButtonMsg] = useState<any>('Add New')
   const [name, setName] = useState<string>('')
   const [image, SetImage] = useState<File>()
   const [slots, setSlots] = useState<string>('')
@@ -85,7 +85,7 @@ export default function AddHHModal({ isOpen, onClose }: { isOpen: boolean; onClo
   }
 
   return (
-    <CustomModal title="Add new hh" isOpen={isOpen} onClose={onClose}>
+    <CustomModal title="Add new HH" isOpen={isOpen} onClose={onClose}>
       <FormInputContainer>
         <AmountFormInput
           style={{ marginRight: '1vw' }}
