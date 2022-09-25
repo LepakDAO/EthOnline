@@ -36,6 +36,8 @@ Some decisions that are not allowed :
 
 Every member can apply for a stay in our permanent co-living spaces in Kuala Lumpur ( coming soon !). After submission all applicants have to wait for a final decision that is made by the moderators. Some accommodation and co-working options might require an additional subscription fee.
 
+![alt text](http://drive.google.com/uc?export=view&id=1p_Jwm4xSATi_kluUcHFqWFXKVk7MI8jY)
+
 ### **Decentralized Storage of Information🌐**
 We are aware of the censorship problems that arises in the web2 world. We want to give our users the freedom and onwership of their data, making it available in a decentralized way using [IPFS]('https://ipfs.tech/'). Data stored in IPFS include :
   - Users' Details ( name, contact info, profile pic)
