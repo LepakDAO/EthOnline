@@ -101,16 +101,28 @@ const RecipientControl = ({ peerAddressOrName, onSubmit }: RecipientInputProps):
         onSubmit={handleSubmit}
       >
         <VStack alignItems={'start'}>
-          <Heading fontSize={'1xl'}>To:</Heading>
-          <Text>{truncateEthAddress(peerAddressOrName)}</Text>
-          <Input
-            value={inputValue}
-            id="recipient-field"
-            style={{ color: 'black' }}
-            // className="block w-[95%] pl-7 pr-3 pt-[3px] md:pt-[2px] md:pt-[1px] bg-transparent caret-n-600 text-n-600 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent text-lg font-mono"
-            name="recipient"
-            onChange={handleInputChange}
-          />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Heading fontSize={'1xl'}>To:</Heading>
+            {/* <Text style={{marginLeft: "1vw"}}>{truncateEthAddress(peerAddressOrName)}</Text> */}
+            <Input
+              value={inputValue}
+              id="recipient-field"
+              style={{
+                color: 'white',
+                width: '100%',
+                borderRadius: '5px',
+                backgroundColor: '#2E2D30',
+                paddingTop: '0.5vw',
+                paddingBottom: '0.5vw',
+                paddingLeft: '1vw',
+                paddingRight: '1vw',
+                marginLeft: '1vw',
+              }}
+              // className="block w-[95%] pl-7 pr-3 pt-[3px] md:pt-[2px] md:pt-[1px] bg-transparent caret-n-600 text-n-600 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent text-lg font-mono"
+              name="recipient"
+              onChange={handleInputChange}
+            />
+          </div>
           <button type="submit" className="hidden" />
         </VStack>
       </form>

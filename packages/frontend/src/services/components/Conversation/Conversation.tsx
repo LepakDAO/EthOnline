@@ -46,7 +46,9 @@ const Conversation = ({ peerAddressOrName }: ConversationProps): JSX.Element => 
   return (
     <>
       <MessagesList messagesEndRef={messagesEndRef} messages={messages} />
-      {walletAddress && <MessageComposer onSend={sendMessage} />}
+      <div style={{ overflow: 'scroll', width: '100%', display: 'flex', alignItems: 'end' }}>
+        {walletAddress && <MessageComposer onSend={sendMessage} />}
+      </div>
     </>
   )
 }

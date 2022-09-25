@@ -36,8 +36,8 @@ const Wrapper = styled.div`
 
 const ChatTileContainer = styled.div`
   height: 42vw;
-  display: flex;
-  flex-wrap: wrap;
+  padding-left: 1vw;
+  padding-right: 1vw;
 `
 
 const ChatInputContainer = styled.div`
