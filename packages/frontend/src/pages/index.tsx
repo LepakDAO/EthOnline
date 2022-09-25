@@ -18,11 +18,24 @@ import skale from '../../public/images/skale.svg'
 import epns from '../../public/images/epns.svg'
 import sismo from '../../public/images/sismo.svg'
 import tellor from '../../public/images/tellor.svg'
+import aave from '../../public/images/aave.svg'
 import Link from 'next/link'
 import Footer from '../components/Footer'
 import ScalingElement from '@components/animation/ScaliingElement'
 
-const sponsors = [livepeer, worldcoin, superfluid, polygon, ipfs, graph, skale, epns, sismo, tellor]
+const sponsors = [
+  livepeer,
+  worldcoin,
+  superfluid,
+  polygon,
+  ipfs,
+  graph,
+  skale,
+  epns,
+  sismo,
+  tellor,
+  aave,
+]
 
 const HomePage: NextPage = () => {
   const renderSponsors = () => {
@@ -38,9 +51,9 @@ const HomePage: NextPage = () => {
         </a>
       )
     })
-    return <div tw="flex flex-wrap space-x-10 justify-center">{renderedSponsors}</div>
+    return <div tw="flex flex-wrap space-x-8 justify-center">{renderedSponsors}</div>
   }
-  
+
   const renderCohorts = () => {
     const cohorts = [
       { name: 'Kuala Lumpur', image: KualaLumpur },
@@ -74,7 +87,7 @@ const HomePage: NextPage = () => {
 
     return <div tw="w-full mt-10 flex flex-wrap justify-center">{renderedCohorts}</div>
   }
-  
+
   return (
     <>
       <Navbar />
