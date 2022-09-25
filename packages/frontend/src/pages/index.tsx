@@ -19,6 +19,8 @@ import epns from '../../public/images/epns.svg'
 import sismo from '../../public/images/sismo.svg'
 import tellor from '../../public/images/tellor.svg'
 import aave from '../../public/images/aave.svg'
+import xmtp from '../../public/images/xmtp.svg'
+import aut from '../../public/images/aut.svg'
 import Link from 'next/link'
 import Footer from '../components/Footer'
 import ScalingElement from '@components/animation/ScaliingElement'
@@ -34,6 +36,8 @@ const sponsors = [
   epns,
   sismo,
   tellor,
+  aut,
+  xmtp,
   aave,
 ]
 
