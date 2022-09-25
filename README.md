@@ -1,70 +1,71 @@
-# Lepak DAO - First fully-on-chain builders community in South East Asia
-## **Intro to Lepak**
+# Lepak DAO - First fully on-chain builders community in South East Asia⛩
 
-Lepak has a similar meaning to "hang out" in Malay, however its meaning goes beyond. We have witnessed increasing awareness of blockchain and many young builders rising up in our local communities, that's why we have decided to launch Lepak DAO, aiming to be the first fully on-chain builder family in South East Asia.
+## **Intro to Lepak💡**
 
-## **Lepak Main Features**
-Apart from all the royalties that our Lepak NFT holders can get, Lepak DAO offers its members some special features which actually power this project.
+Lepak has a similar meaning to "hang out" in Malay, however its meaning goes beyond. We have witnessed increasing awareness of blockchain and many young builders rising up in our local communities. That's why we have decided to launch Lepak DAO, aiming to be the first fully on-chain builder family in South East Asia!
+
+## **Main Features⚙️**
+Apart from all the royalties that our NFT holders get, Lepak DAO offers a dashboard packed with features and IRL opportunities for networking and self improvement.
 
 - Long Term Hacker Houses ( LTHH )
 - Decentralized Storage of Information
 - Decentralized Video Streaming ( workshops )
-- Notifications services 
+- Notification services 
 - Proof Of Humanity and Uniqueness
 - Privacy in voting rounds ( DAO )
-- Extra Features ...
+- Extra Features✨ ...
 
-### **DAO Management**
+### **DAO Management⚖️**
 
-Lepak DAO is meant to be governed by its members, and its voting mechanism is "one NFT holder , one vote" . The DAO has set a number ( max 5 ) of moderators which are whitelisted addresses that can execute certain actions that wouldn't require to go thru some proposal raising and voting by the whole DAO.
+Lepak DAO is meant to be governed by its members, and its voting mechanism is "one NFT holder, one vote". The DAO sets a number ( max 5 ) of moderators that can execute certain actions that wouldn't require voting by the entire DAO. It is a perfect equilibrium achieved by leaving important decisions up to the DAO, while still maintaining ability to decide quickly on repetitive actions.
 
 Some allowed decisions include :
   - Blacklisting people from the DAO
   - Withdrawing certain amount of funds
   - Opening Hacker Houses
-  - reviewing and accepting applciations to join the cohorts
+  - Reviewing and accepting applcations to join the cohorts
 
 Some decisions that are not allowed :
   - Naming new moderators
   - blacklisting moderators
   - Giving free memberships to users
 
-### **Long Term Hacker Houses**
+### **Long Term Hacker Houses🏠**
 
-We offer our users the option to apply to stay in our permanent coliving spaces in Kuala Lumpur ( coming soon !), They are required to apply and wait for an application decision that is made by the moderators. Some users will have to pay a subscription fee if they decide to use the co-living or co-working spaces.
+Every member can apply for a stay in our permanent co-living spaces in Kuala Lumpur ( coming soon !). After submission all applicants have to wait for a final decision that is made by the moderators. Some accommodation and co-working options might require an additional subscription fee.
 
-### **Decentralized Storage of Information**
-We are aware of the censorship problems that arises in the web2 world. We wanted to give our users the freedom and onwership of their data, making it available in a decentralized way using [IPFS]('https://ipfs.tech/'). Some data that is stored in IPFS include :
+### **Decentralized Storage of Information🌐**
+We are aware of the censorship problems that arises in the web2 world. We want to give our users the freedom and onwership of their data, making it available in a decentralized way using [IPFS]('https://ipfs.tech/'). Data stored in IPFS include :
   - Users' Details ( name, contact info, profile pic)
   - Proposals of the DAO
   - LTHH Details ( costs , location, pictures)
 
-### **Proof Of Humanity and Uniqueness**
-We have integrated [Worldcoin](https://worldcoin.org/)'s PoH by using their widget and integrating directly with our smart contracts, for more details check [integration](packages/contracts/contracts/LepakCore.sol), with this feature we will definetely be more secure and more innovative. 
+### **Proof Of Humanity and Uniqueness💎**
+We have integrated [Worldcoin](https://worldcoin.org/)'s PoH by using their widget and integrating our smart contracts. For more details check [integration](packages/contracts/contracts/LepakCore.sol). With this feature our DAO will definetely be more secure and more innovative. 
   - We will only allow real users to be part of the DAO
   - We will avoid users with different wallets joining the DAO several times and holding more voting power than the rest
   - We give security and safety to our members, since we are launching IRL cohorts, people should feel safe that its actual humans applying for the co-living
 
-### **Notification Services**
-One of the core features of Lepak is notification services using [EPNS](https://epns.io), we will allow our users stay updated on whats happening within our DAO :
+### **Notification Services🛎**
+One of the core features of Lepak is notification service made possible by [EPNS](https://epns.io). We allow our users to stay updated on what is happening within our DAO :
   - New users Joining
   - Proposals executed
-  - Applications results of LTHHs
+  - Applications results for LTHHs
   - and many more...
 
-### **Privacy in Voting Rounds**
-This is a unique feature of lepak, we use the power of ZK-Badges of [sismo](https://blog.sismo.io/what-is-sismo-part-1-zk-badges-73e7031bacda)
-for a more detailed overview on how we use sismo please visit [Lepak Sismo Docs](packages/sismo/README.md)
+### **Privacy in Voting Rounds🔒**
+This is a unique feature of Lepak. We use the power of ZK-Badges provided by [sismo](https://blog.sismo.io/what-is-sismo-part-1-zk-badges-73e7031bacda).
+For a more detailed overview on how we use sismo please visit [Lepak Sismo Docs](packages/sismo/README.md)
 
-### **Decentralized Livestreaming && Chat**
-Since Lepak DAO is a project we want to launch soon, we thought that one important feature is the ability to livestream workshops and meetups and in a decentralized way. This is going to make it easier for our community to share **workshops** & **events** all in real time. We have used [livepeer](https://livepeer.org/)'s amazing API to achive this. LikeWise, we allow viewers to send message to the streamer, either is a workshop or an event, users can also send some [streams](https://www.superfluid.finance/) of money to the streamers
+### **Decentralized Livestreaming && Chat💭**
+Since Lepak DAO is a real project that is launching very soon, we are working on solutions to keep our community engaged. One of them is the ability to livestream workshops and meetups in a decentralized manner. This is going to make it easier for our community to share **workshops** & **events** all in real time. We have used [livepeer](https://livepeer.org/)'s amazing API to achive this. To keep viewers attention we allow them to send messages during a these live events. However, that's not everything. In Lepak DAO users can also send some [streams](https://www.superfluid.finance/) of money to the streamers!🤑
 
-### **Extra Features**
-  - Looking forward to partner with [Aut Protocol](https://docs.aut.id/v2/intro/what-is-aut) to extend our DAO capabilities, We have used their so-called d-aut ID in our project and it allows users who already have an ID to connect to our DAO expander.
-  - Streaming of funds with [superfluid](https://www.superfluid.finance/) , to cover the costs of subscriptions to our cohorts or LTHH
-  - We use [tellor](https://tellor.io/) for **Dynamic Token URI** and to allow users to purchase their memberships using different ERC20 Tokens
+### **Extra Features🦄**
+  - Looking forward to partner with [Aut Protocol](https://docs.aut.id/v2/intro/what-is-aut) to extend our DAO capabilities, we have used their so-called d-aut ID in our project, which allows users who already have an ID to connect to our DAO expander.
+  - Streaming of funds with [superfluid](https://www.superfluid.finance/), to cover the costs of subscriptions for our cohorts or LTHH
+  - We use [tellor](https://tellor.io/) for **Dynamic Token URI** and allow users to purchase their memberships using different ERC20 Tokens
 
-## The Stack
+## The Stack🛠
 
 - Package-Manager: `pnpm`
 - Monorepo Tooling: `turborepo`
@@ -79,7 +80,7 @@ Since Lepak DAO is a project we want to launch soon, we thought that one importa
   - Linting & Formatting: `eslint`, `prettier`
   - Actions on Git Hooks: `husky`, `lint-staged`
 
-## Getting Started
+## Getting Started🏃🏽‍♂️
 
 ```bash
 # Install pnpm ** if you dont have it
